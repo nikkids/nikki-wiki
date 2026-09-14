@@ -1,4 +1,4 @@
-# The Ghiffari Gazette
+# The Nikki Wiki
 
 A one-page, vintage-newspaper-styled personal portfolio for Jibril Nikki
 Ghiffari. Static HTML/CSS/JS — no build step, no framework, no external
