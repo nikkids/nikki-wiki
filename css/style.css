@@ -1,5 +1,5 @@
 /* ==========================================================================
-   THE GHIFFARI GAZETTE Ã¢â‚¬â€ vintage broadsheet stylesheet
+   THE GHIFFARI GAZETTE â€” vintage broadsheet stylesheet
    ========================================================================== */
 
 :root {
@@ -959,7 +959,7 @@ main {
 }
 
 /* ------------------------------ scroll reveal ------------------------------ */
-/* Applied via JS (script.js) to existing cards â€” no markup changes needed.
+/* Applied via JS (script.js) to existing cards — no markup changes needed.
          Elements start slightly lowered and faded, then settle into place. */
 
 .reveal-init {
@@ -1210,7 +1210,7 @@ main {
   }
 
   /* The section nav becomes one horizontally-scrollable strip instead of
-           wrapping into several rows â€” a stack of nav rows was eating most of
+           wrapping into several rows — a stack of nav rows was eating most of
            the screen before any content appeared. Swipe sideways to see more. */
   .section-nav {
     flex-wrap: nowrap;
@@ -1439,7 +1439,7 @@ main {
 
 /* The button itself is now a round dial framing the real radio artwork,
        with sound-wave rings that ping outward while music is genuinely playing
-       (driven by the <audio> element's real play/pause state in script.js â€”
+       (driven by the <audio> element's real play/pause state in script.js —
        not just the on/off intent, so it never animates on a blocked autoplay). */
 .radio-toggle {
   position: relative;
@@ -1485,7 +1485,7 @@ main {
   animation: radio-breathe 2.2s ease-in-out infinite;
 }
 
-/* Simple emoji fallback if the artwork fails to load â€” never a broken icon.
+/* Simple emoji fallback if the artwork fails to load — never a broken icon.
        script.js swaps the <img> for this span directly, so no advanced CSS
        selector support is needed for the fallback to actually show. */
 .radio-image-fallback {
@@ -1555,7 +1555,7 @@ main {
 }
 
 /* ------------------------------------ detail pages --------------------------------- */
-/* Standalone pages under /pages/ Ã¢â‚¬â€ the "read more, in full" destination for each entry. */
+/* Standalone pages under /pages/ â€” the "read more, in full" destination for each entry. */
 
 .detail-header {
   max-width: 720px;
@@ -1655,7 +1655,7 @@ main {
   }
 }
 
-/* ==========================================================================\n   NIKKI TICKER Ã¢â‚¬â€ subtle data-paper polish\n   These overrides preserve the original broadsheet layout while tightening\n   the front-page proportions and adding restrained data-themed ornament.\n   ========================================================================== */
+/* ==========================================================================\n   NIKKI TICKER â€” subtle data-paper polish\n   These overrides preserve the original broadsheet layout while tightening\n   the front-page proportions and adding restrained data-themed ornament.\n   ========================================================================== */
 
 /* A quiet background engraving: grid + data points, intentionally faint. */
 body::before {
@@ -1708,7 +1708,7 @@ main,
 }
 
 /* ============================================================================
-                   HEADLINE NEWS â€” HORIZONTAL OLD TV SIGNAL BUZZ
+                   HEADLINE NEWS — HORIZONTAL OLD TV SIGNAL BUZZ
                    Scoped ONLY to the Headline News photograph.
                    ============================================================================ */
 .headline-tv-screen {
@@ -1726,7 +1726,7 @@ main,
   will-change: transform, filter;
 }
 
-/* Vertical signal bars moving LEFT â†’ RIGHT.
+/* Vertical signal bars moving LEFT → RIGHT.
                    This is intentionally horizontal, rather than a vertical scan. */
 .headline-tv-screen::before {
   content: '';
@@ -1784,7 +1784,7 @@ main,
   animation: headline-tv-horizontal-interference 0.72s steps(8, end) both;
 }
 
-/* Fast horizontal CRT flicker â€” NO shake, NO vertical movement, NO ripple. */
+/* Fast horizontal CRT flicker — NO shake, NO vertical movement, NO ripple. */
 @keyframes headline-tv-horizontal-flicker {
   0%,
   100% {
@@ -1836,7 +1836,7 @@ main,
   }
 }
 
-/* Bright interference travels LEFT â†’ RIGHT. */
+/* Bright interference travels LEFT → RIGHT. */
 @keyframes headline-tv-horizontal-interference {
   0% {
     left: -30%;
@@ -1968,13 +1968,13 @@ main,
   line-height: 1.45;
 }
 
-/* Occasional tiny data marks in the paper margins Ã¢â‚¬â€ deliberately subtle. */
+/* Occasional tiny data marks in the paper margins â€” deliberately subtle. */
 .paper-section:nth-of-type(3n) {
   position: relative;
 }
 
 .paper-section:nth-of-type(3n)::after {
-  content: '01 Ã‚Â· 10 Ã‚Â· 11  /  DATA NOTE';
+  content: '01 Â· 10 Â· 11  /  DATA NOTE';
   position: absolute;
   right: 0;
   top: 1.5rem;
@@ -2000,15 +2000,15 @@ main,
 }
 
 /* ==========================================================================
-                 THE PROJECT DESK â€” newspaper-style project cards + case-file dossier
+                 THE PROJECT DESK — newspaper-style project cards + case-file dossier
                  Cards show only the essentials; the "Open Case File" button reveals the
                  full write-up in a focused note, inspired by the document/journal screens
-                 in games like Resident Evil â€” the page stays visible behind a dimmed,
+                 in games like Resident Evil — the page stays visible behind a dimmed,
                  blurred backdrop while the note itself takes full attention.
               
                  Browsing between cards is a card-catalog drawer, not a slideshow: drag or
-                 swipe the row, or press the printer's-manicule stamps (â˜œ â˜ž) at either
-                 side â€” a nod to the pointing-hand ornament old typesetters used in the
+                 swipe the row, or press the printer's-manicule stamps (☜ ☞) at either
+                 side — a nod to the pointing-hand ornament old typesetters used in the
                  margins to say "see here."
                  ========================================================================== */
 
@@ -2165,7 +2165,7 @@ main,
   }
 
   /* Tighten the case-file cards so they don't stretch tall on narrow
-                   screens â€” smaller type, less breathing room between
+                   screens — smaller type, less breathing room between
                    elements, and a clamped teaser so copy length can't push
                    the card height around from card to card. */
   .project-carousel {
@@ -2206,7 +2206,7 @@ main,
     overflow: hidden;
   }
 
-  /* Show exactly one case file at a time on mobile â€” two narrow cards
+  /* Show exactly one case file at a time on mobile — two narrow cards
      side by side read as cramped and accidental, not intentional. Each
      card now fills the whole carousel viewport; the manicule arrows
      step between them one at a time. */
@@ -2379,7 +2379,7 @@ body.dossier-lock {
 }
 
 /* ============================================================
-           SOCIETY PAGE â€” clearer organization names + readable body
+           SOCIETY PAGE — clearer organization names + readable body
            ============================================================ */
 
 .gossip-entry {
@@ -2427,61 +2427,43 @@ body.dossier-lock {
 }
 
 
+/* ============================================================
+   FINAL MOBILE FIXES
+   Keep desktop styling unchanged.
+   ============================================================ */
+@media screen and (max-width: 640px) {
+  /* Completely disable the viewport/body vignette on mobile.
+     !important is intentional so this remains the final authority. */
+  body::after {
+    content: none !important;
+    display: none !important;
+    box-shadow: none !important;
+    background: none !important;
+  }
 
-/* =========================================================
-   MOBILE-ONLY OVERRIDES
-   Desktop design remains unchanged.
-   ========================================================= */
+  /* Keep the data engraving from creating unnecessary horizontal overflow. */
+  .data-engraving {
+    max-width: 100%;
+    overflow: hidden;
+  }
 
-@media (max-width: 640px) {
-
-  /* ---------------------------------------------------------
-     PROJECT DESK
-     Exactly ONE card visible at a time on mobile.
-     --------------------------------------------------------- */
-
-  .project-viewport {
+  /* One project card per mobile view.
+     The JS should also use visiblePerPage = 1 on mobile.
+     !important overrides the inline width written by the carousel. */
+  #projects .project-viewport {
     width: 100%;
     min-width: 0;
     overflow: hidden;
   }
 
-  .project-track {
+  #projects .project-track {
     gap: 1rem;
   }
 
-  .project-track .project-card {
-    flex: 0 0 100%;
+  #projects .project-track .project-card {
+    flex: 0 0 100% !important;
     width: 100% !important;
     max-width: 100%;
-  }
-
-
-  /* ---------------------------------------------------------
-     MOBILE VIGNETTE
-     Reduce the fixed viewport effect that creates the
-     visible horizontal/bottom boundary while scrolling.
-     --------------------------------------------------------- */
-
-  body::after {
-    box-shadow:
-      inset 0 0 3vw rgba(30, 25, 20, 0.22),
-      inset 0 0 7vw rgba(30, 25, 20, 0.12),
-      inset 0 0 0 3px rgba(58, 47, 32, 0.08),
-      inset 0 0 0 1px rgba(40, 30, 20, 0.22);
-
-    background: radial-gradient(
-      circle,
-      transparent 72%,
-      rgba(30, 20, 10, 0.025) 100%
-    );
-  }
-
-}
-
-
-@media (max-width: 640px) {
-  body::after {
-    display: none;
+    min-width: 0;
   }
 }
