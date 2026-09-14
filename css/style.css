@@ -2478,3 +2478,10 @@ body.dossier-lock {
   }
 
 }
+
+
+@media (max-width: 640px) {
+  body::after {
+    display: none;
+  }
+}
