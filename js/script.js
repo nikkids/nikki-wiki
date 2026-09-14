@@ -695,7 +695,7 @@
 
   if (projectViewport && projectTrack && projectTrack.children.length) {
     var projectCards = Array.prototype.slice.call(projectTrack.children);
-    var visiblePerPage = 2;
+    var visiblePerPage = window.innerWidth <= 640 ? 1 : 2;
     var totalPages = Math.max(
       1,
       Math.ceil(projectCards.length / visiblePerPage)
