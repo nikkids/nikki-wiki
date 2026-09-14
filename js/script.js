@@ -1340,8 +1340,7 @@
         : 2;
     }
 
-    var visiblePerPage =
-      getVisiblePerPage();
+    var visiblePerPage = 1;
 
     var totalPages = Math.max(
       1,
