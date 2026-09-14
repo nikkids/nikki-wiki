@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Nikki Wiki — Jibril Nikki Ghiffari</title>
+    <meta
+      name="description"
+      content="The Nikki Wiki: the life and work of Jibril Nikki Ghiffari, Data Science correspondent, in vintage broadsheet form."
+    />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Special+Elite&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- ===================== TOP UTILITY BAR ===================== -->
+    <div class="utility-bar">
+      <span class="utility-item" id="today-date">MONDAY, JANUARY 1</span>
+      <span class="utility-item utility-center"
+        >EST. 2022 &middot; INDONESIA</span
+      >
+      <span class="utility-item">PRICE: YOUR ATTENTION</span>
+    </div>
+
+    <!-- ===================== MASTHEAD ===================== -->
+    <header class="masthead" id="top">
+      <p class="masthead-eyebrow">
+        Data, Research &amp; Innovation: Data Headline in the palm of your hand
+      </p>
+      <h1 class="masthead-title">THE NIKKI WIKI</h1>
+      <p class="masthead-tagline">
+        &ldquo;All the Insights Fit to Print&rdquo;
+      </p>
+      <svg class="masthead-flourish" viewBox="0 0 200 26" aria-hidden="true">
+        <path d="M0 13 H70" stroke="var(--ink)" stroke-width="1.5" />
+        <path d="M130 13 H200" stroke="var(--ink)" stroke-width="1.5" />
+        <path
+          d="M85 4 L100 13 L85 22 M115 4 L100 13 L115 22"
+          fill="none"
+          stroke="var(--ink)"
+          stroke-width="1.5"
+        />
+        <circle cx="100" cy="13" r="3.5" fill="var(--accent)" />
+      </svg>
+      <div class="masthead-rule-thick"></div>
+      <div class="masthead-meta">
+        <span>VOL. IV - NO. 26</span>
+        <span class="masthead-meta-center"
+          >JIBRIL NIKKI GHIFFARI, DATA SCIENCE CORRESPONDENT</span
+        >
+        <span>SINGLE COPY: FREE</span>
+      </div>
+    </header>
+
+    <!-- ===================== DATA TICKER ===================== -->
+    <div class="ticker-tape" aria-hidden="true">
+      <div class="ticker-track" id="ticker-track">
+        <span class="ticker-item"
+          ><strong>DATA ANALYST</strong>, DATA SCIENTIST, BUSINESS ANALYST,
+          SWE</span
+        >
+        <span class="ticker-item"
+          >INDOBERT MODEL ACCEPTED, JUTIF (SINTA 2)</span
+        >
+        <span class="ticker-item"
+          >IEEE ICDSG 2026 INDEXED, SCOPUS & IEEE XPLORE</span
+        >
+        <span class="ticker-item">SENSUS EKONOMI 2026 DATA SCRAPING</span>
+
+        <span class="ticker-item"
+          >PYTHON &#9650; SQL &#9650; EXCEL &#9650;</span
+        >
+        <span class="ticker-item">SATRIA DATA 2025 FINALIST</span>
+        <span class="ticker-item">ADIKARA 2025 WINNER</span>
+        <span class="ticker-item">ERP MODULES SHIPPED</span>
+        <!-- duplicate set for seamless loop -->
+        <span class="ticker-item"
+          ><strong>DATA ANALYST</strong>, DATA SCIENTIST, BUSINESS ANALYST,
+          SWE</span
+        >
+        <span class="ticker-item"
+          >SENTIMENT ANALYSIS ACCEPTED, JUTIF (SINTA 2)</span
+        >
+        <span class="ticker-item"
+          >IEEE ICDSG 2026 INDEXED, SCOPUS & IEEE XPLORE</span
+        >
+        <span class="ticker-item">SENSUS EKONOMI 2026 DATA SCRAPING</span>
+        <span class="ticker-item"
+          >PYTHON &#9650; SQL &#9650; EXCEL &#9650;</span
+        >
+        <span class="ticker-item">SATRIA DATA 2025 FINALIST</span>
+        <span class="ticker-item">EDU-IMPACT 2026 FINALIST</span>
+        <span class="ticker-item">ODOO MODULES SHIPPED 3 PLATFORMS</span>
+      </div>
+    </div>
+
+    <!-- ===================== SECTION NAV (looks like paper tabs) ===================== -->
+    <nav class="section-nav" id="section-nav" aria-label="Sections">
+      <button class="nav-tab active" data-target="front-page">
+        Front Page
+      </button>
+      <button class="nav-tab" data-target="education">Education</button>
+      <button class="nav-tab" data-target="working">Working Desk</button>
+      <button class="nav-tab" data-target="professional">Field Reports</button>
+      <button class="nav-tab" data-target="projects">Project Desk</button>
+      <button class="nav-tab" data-target="organization">Society Page</button>
+      <button class="nav-tab" data-target="volunteer">Volunteer</button>
+      <button class="nav-tab" data-target="awards">Honor Roll</button>
+      <button class="nav-tab" data-target="classifieds">Classifieds</button>
+      <button class="nav-tab" data-target="contact">Letters</button>
+      <button class="unfold-btn" id="unfold-btn" type="button">
+        Unfold Full Edition &#9662;
+      </button>
+    </nav>
+
+    <main>
+      <!-- ===================== FRONT PAGE ===================== -->
+      <section class="front-page" id="front-page">
+        <div class="front-grid">
+          <article class="lead-story">
+            <p class="headline-news-label">Headline News</p>
+            <div class="headline-photo-frame">
+              <div class="headline-tv-screen">
+                <img
+                  src="assets/Headliner.jpeg"
+                  class="headline-photo"
+                  alt="Vintage newspaper-style headline illustration"
+                  loading="eager"
+                />
+              </div>
+              <p class="headline-caption">
+                Photo of correspondent's Thesis Defense. Taken by his academic
+                supervisor: Dr. Fitriyani, S.Si., M.T. More can be found on the
+                Research Assistant section.
+              </p>
+            </div>
+            <p class="kicker">Exclusive Profile</p>
+            <h2 class="headline">
+              Local Data Scientist Turns Spreadsheets Into Front-Page News
+            </h2>
+            <p class="byline">
+              By Jibril Nikki Ghiffari &middot; Those Who Claims the title of
+              Correspondent (and writer)
+            </p>
+            <div class="lead-columns">
+              <p class="drop-cap">
+                A Data Science graduate with a strong background in transforming
+                data into meaningful insights and practical solutions. He enjoys
+                applying his skills to real&#8209;world challenges while
+                continuing to expand his knowledge and technical expertise, a
+                habit that taken him far yet not limited to data-related area.
+              </p>
+              <p>
+                Curiosity brought him to the world of Research, Software
+                Engineering, IoT, design, and even business development. Though
+                he got many cards up his sleeves, his trump card would be in
+                Data field since it's the focus he's been pursuing throughout
+                university.
+              </p>
+              <p>
+                This edition of the Wiki traces back to writer's origin story:
+                his academic years, his late-night projects, his surroundings,
+                and the stories collected along the way. Readers in a hurry may
+                check the Classifieds of skills, or expected to see the summary
+                of each experience along the way. While at it, reader may check
+                out writer's old rusty website before this wiki was made:
+                <a
+                  href="https://jibrilnikki.netlify.app/"
+                  target="_blank"
+                  rel="noopener"
+                  >here</a
+                >.
+              </p>
+            </div>
+
+            <div class="data-engraving" aria-hidden="true">
+              <span class="data-engraving-label">DATA DESK / FIELD NOTES</span>
+              <div class="data-engraving-grid">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <div class="data-engraving-line"></div>
+              <span class="data-engraving-code"
+                >01 10 01 &nbsp; 101 001 &nbsp; 3.77 &nbsp; 400 &nbsp; SQL
+                &nbsp; ML</span
+              >
+            </div>
+          </article>
+
+          <aside class="sidebar">
+            <div class="ad-box mini-me-box">
+              <p class="ad-box-title">Meet the Correspondent</p>
+              <div class="mini-me-frame">
+                <img
+                  src="assets/Avatar 4.png"
+                  class="mini-me-img"
+                  id="mini-me-img"
+                  alt="Avatar frame 1 of 3"
+                  loading="eager"
+                />
+              </div>
+              <p class="mini-me-caption" id="mini-me-caption">Hi there!</p>
+            </div>
+
+            <div class="ad-box stat-box">
+              <p class="ad-box-title">By the Numbers</p>
+              <ul class="stat-list">
+                <li>
+                  <span class="stat-num">2</span
+                  ><span class="stat-label"
+                    >Papers in press &amp; proceedings</span
+                  >
+                </li>
+                <li>
+                  <span class="stat-num">4</span
+                  ><span class="stat-label">Company platforms engineered</span>
+                </li>
+                <li>
+                  <span class="stat-num">400+</span
+                  ><span class="stat-label">Students Taught</span>
+                </li>
+
+                <li>
+                  <span class="stat-num">100+</span
+                  ><span class="stat-label">Datasets Extracted</span>
+                </li>
+                <li>
+                  <span class="stat-num">20+</span
+                  ><span class="stat-label">Dashboard Created</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="ad-box quote-box">
+              <p class="quote-mark">&ldquo;</p>
+              <p class="quote-text">
+                Give him a messy spreadsheet and a deadline, and he will hand
+                you back a dashboard, a report, and probably a cup of coffee
+                too.
+              </p>
+              <p class="quote-attr">&dash; A Colleague, hopefully speaking</p>
+            </div>
+
+            <div class="ad-box weather-box">
+              <p class="ad-box-title">Forecast</p>
+              <p class="weather-line">
+                Outlook: partly cloudy with a chance of model convergence.
+              </p>
+              <p class="weather-line">
+                Extended forecast: Training loss expected to failing.
+              </p>
+            </div>
+
+            <div class="stop-press-box">
+              <p class="stop-press-title">Stop Press</p>
+              <p class="stop-press-text">
+                Despite the name of this page contains 'Wiki', it actually is
+                the correspondent's portfolio and is not open for collaborative
+                editing.
+              </p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ===================== EDUCATION ===================== -->
+      <section class="paper-section" id="education">
+        <h2 class="section-masthead">Education</h2>
+        <div class="section-rule"></div>
+        <article class="story-card" data-expandable>
+          <div class="story-head">
+            <div
+              class="img-placeholder story-photo"
+              aria-label="Placeholder for a campus or graduation photo"
+            >
+              <img
+                src="assets/Telkom.png"
+                alt="Vintage newspaper-style headline illustration"
+                loading="eager"
+              />
+            </div>
+            <h3 class="story-headline">Undergraduate of Data Science</h3>
+            <p class="dateline">BANDUNG, Telkom University</p>
+            <p class="story-dates">Sep 2022 &ndash; Nov 2026</p>
+          </div>
+          <p class="story-teaser">
+            Bachelor in Data Science of Informatics Faculty.
+            <button class="read-more" type="button">
+              Read the full report &rarr;
+            </button>
+          </p>
+          <div class="story-body">
+            <p>
+              Enrolled at Telkom University's Data Science program in September
+              2022, with graduation on November 2026. Maintained a cumulative
+              GPA of 3.77 out of 4.00, awarded with honor, while concurrently
+              holding a research assistantship, a lecturing apprenticeship , and
+              multiple industry placements.
+            </p>
+          </div>
+          <p class="detail-link-wrap">
+            <a class="cta-button" href="pages/education.html" rel="noopener"
+              >Full Story &rarr;</a
+            >
+          </p>
+        </article>
+      </section>
+
+      <!-- ===================== WORKING EXPERIENCE ===================== -->
+      <section class="paper-section" id="working">
+        <h2 class="section-masthead">The Working Desk</h2>
+        <p class="section-subhead">Reports from employment</p>
+        <div class="section-rule"></div>
+
+        <article class="article-card" data-expandable>
+          <div class="article-top">
+            <div class="article-media">
+              <div
+                class="img-placeholder landscape-placeholder"
+                aria-label="Placeholder for a photo of the Ferbos office or product"
+              >
+                <img
+                  src="assets/Ferbos.jpeg"
+                  class="headline-photo"
+                  alt="Vintage newspaper-style headline illustration"
+                  loading="eager"
+                />
+              </div>
+              <p class="article-caption">
+                Writer with his fellow IT, IoT, and Field Engineer friends
+              </p>
+            </div>
+            <div class="article-copy">
+              <p class="article-kicker">
+                <img
+                  class="org-favicon"
+                  src="https://www.google.com/s2/favicons?sz=64&amp;domain=ferbos.co.id"
+                  alt=""
+                  width="18"
+                  height="18"
+                  loading="lazy"
+                />
+                THE WORKING DESK &middot; SEP 2025 &ndash; MAR 2026
+              </p>
+              <h3 class="article-headline">
+                Software Engineer, Ferbos Kreasi Digital
+              </h3>
+              <p class="article-byline">Jakarta</p>
+              <p class="article-lede">
+                Rebuilt the ERP systems behind different company platforms,
+                contributted the data side of a household energy survey from the
+                World Bank project, and migrated company emails.
+              </p>
+              <div class="story-body">
+                <ul>
+                  <li>
+                    Built and maintained custom Odoo ERP modules for company
+                    platforms: hijau.co.id, and wakafenergi.id, ferbos.co.id.
+                    <img
+                      class="org-favicon inline-favicon"
+                      src="https://www.google.com/s2/favicons?sz=64&amp;domain=odoo.com"
+                      alt=""
+                      width="16"
+                      height="16"
+                      loading="lazy"
+                    />
+                  </li>
+                  <li>
+                    Contributed in the data side of a large research project
+                    with the World Bank, covering real-time energy-use data from
+                    400 households.
+                  </li>
+                  <li>
+                    Moved the company's email system for tedes.id from Hostinger
+                    and Outlook over to Google Workspace.
+                  </li>
+                  <li>
+                    Worked closely with engineering and business teams across
+                    the company to keep it all moving together.
+                  </li>
+                </ul>
+              </div>
+              <div class="article-actions">
+                <button class="read-more" type="button">Read More</button>
+                <a class="cta-button" href="pages/ferbos.html" rel="noopener"
+                  >Full Story &rarr;</a
+                >
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="article-card" data-expandable>
+          <div class="article-top">
+            <div class="article-media">
+              <div
+                class="img-placeholder landscape-placeholder"
+                aria-label="Placeholder for a photo of the geolocation dashboard or fieldwork"
+              >
+                <img
+                  src="assets/BPS-Intern.png"
+                  class="headline-photo"
+                  alt="Vintage newspaper-style headline illustration"
+                  loading="eager"
+                />
+              </div>
+              <p class="article-caption">
+                End of intern photo with Head of IPDS BPS
+              </p>
+            </div>
+            <div class="article-copy">
+              <p class="article-kicker">
+                <img
+                  class="org-favicon"
+                  src="https://www.google.com/s2/favicons?sz=64&amp;domain=bps.go.id"
+                  alt=""
+                  width="18"
+                  height="18"
+                  loading="lazy"
+                />
+                THE WORKING DESK &middot; JUN 2025 &ndash; AUG 2025
+              </p>
+              <h3 class="article-headline">
+                Data Engineer, Badan Pusat Statistik (BPS)
+              </h3>
+              <p class="article-byline">Bandung</p>
+              <p class="article-lede">
+                Helped prepare Indonesia's national economic census and built a
+                live map dashboard to track fieldwork progress in West Java.
+              </p>
+              <div class="story-body">
+                <ul>
+                  <li>
+                    Used web scraping to pull in economic data needed for Sensus
+                    Ekonomi 2026 across all region in West Java.
+                  </li>
+                  <li>
+                    Built an interactive map dashboard used to track progress on
+                    the Wilkerstat Program.
+                  </li>
+                  <li>
+                    Cleaned and organized large government datasets so they were
+                    ready for reporting.
+                  </li>
+                </ul>
+              </div>
+              <div class="article-actions">
+                <button class="read-more" type="button">Read More</button>
+                <a class="cta-button" href="pages/bps.html" rel="noopener"
+                  >Full Story &rarr;</a
+                >
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- ===================== PROFESSIONAL EXPERIENCE ===================== -->
+      <section class="paper-section" id="professional">
+        <h2 class="section-masthead">Field Reports</h2>
+        <p class="section-subhead">
+          Research, teaching, and technical assignments
+        </p>
+        <div class="section-rule"></div>
+
+        <article class="article-card" data-expandable>
+          <div class="article-top">
+            <div class="article-media">
+              <div
+                class="img-placeholder landscape-placeholder"
+                aria-label="Placeholder for a research or conference photo"
+              >
+                <img
+                  src="assets/WRAP.png"
+                  class="headline-photo"
+                  alt="Vintage newspaper-style headline illustration"
+                  loading="eager"
+                />
+              </div>
+              <p class="article-caption">
+                Writer with his professor researching on opinion mapping and
+                hate speech for the paper publication.
+              </p>
+            </div>
+            <div class="article-copy">
+              <p class="article-kicker">
+                <img
+                  class="org-favicon"
+                  src="https://www.google.com/s2/favicons?sz=64&amp;domain=telkomuniversity.ac.id"
+                  alt=""
+                  width="18"
+                  height="18"
+                  loading="lazy"
+                />
+                FIELD REPORTS &middot; MAR 2025 &ndash; AUG 2026
+              </p>
+              <h3 class="article-headline">
+                Research Assistant &amp; Assistant Lecturer, Telkom University
+              </h3>
+              <p class="article-byline">Bandung</p>
+              <p class="article-lede">
+                Co-author two research papers on social media, sentiment, and
+                hate speech which one of it using an AI language model called
+                IndoBERT while also teaching part of a university course.
+              </p>
+              <div class="story-body">
+                <ul>
+                  <li>
+                    <em
+                      >&ldquo;Mapping Political Sentiment and Hate Speech on
+                      Social Media during Indonesia's 2024 Election using
+                      IndoBERT-based Spatiotemporal Analysis.&rdquo;</em
+                    >
+                    Accepted for publication in JUTIF (SINTA 2 accredited).
+                  </li>
+                  <li>
+                    Second paper published in the IEEE ICDSG 2026 conference
+                    proceedings, indexed in IEEE Xplore and Scopus.
+                    <img
+                      class="org-favicon inline-favicon"
+                      src="https://www.google.com/s2/favicons?sz=64&amp;domain=ieee.org"
+                      alt=""
+                      width="16"
+                      height="16"
+                      loading="lazy"
+                    />
+                  </li>
+                  <li>
+                    Helped prepare data, build models, and study large sets of
+                    social media posts. Also started new research on Graph
+                    Networks.
+                  </li>
+                  <li>
+                    Worked as Assistant Lecturer for the ICT Global Insight
+                    course from March to June 2025, helping teach the class and
+                    grade student work.
+                  </li>
+                </ul>
+              </div>
+              <div class="article-actions">
+                <button class="read-more" type="button">Read More</button>
+                <a class="cta-button" href="pages/research.html" rel="noopener"
+                  >Full Story &rarr;</a
+                >
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="article-card" data-expandable>
+          <div class="article-top">
+            <div class="article-media">
+              <div
+                class="img-placeholder landscape-placeholder"
+                aria-label="Placeholder for a photo from the coding cohort"
+              >
+                <img
+                  src="assets/Dicoding.png"
+                  class="headline-photo"
+                  alt="Vintage newspaper-style headline illustration"
+                  loading="eager"
+                />
+              </div>
+              <p class="article-caption">
+                Working through a capstone project during the cohort.
+              </p>
+            </div>
+            <div class="article-copy">
+              <p class="article-kicker">
+                <img
+                  class="org-favicon"
+                  src="https://www.google.com/s2/favicons?sz=64&amp;domain=dbs.com"
+                  alt=""
+                  width="18"
+                  height="18"
+                  loading="lazy"
+                />
+                FIELD REPORTS &middot; JAN 2025 &ndash; JUL 2025
+              </p>
+              <h3 class="article-headline">
+                Machine Learning Engineer Cohort, Coding Camp by DBS Foundation
+              </h3>
+              <p class="article-byline">Bandung</p>
+              <p class="article-lede">
+                Built three capstone machine learning projects and dozens of
+                individual projects from start to finish during a six-month
+                internsive program.
+              </p>
+              <div class="story-body">
+                <ul>
+                  <li>
+                    Built complete machine learning projects: cleaning data,
+                    exploring it, training models, and checking how well they
+                    worked. Covered classification, regression, and data
+                    visualization.
+                  </li>
+                  <li>
+                    Measured model performance using accuracy, precision,
+                    recall, and F1 score, and looked at how machine learning
+                    could help with financial literacy.
+                  </li>
+                  <li>
+                    Practiced good coding habits with Git, GitHub, SQL, and
+                    Python so the work stayed organized and easy to share.
+                  </li>
+                </ul>
+              </div>
+              <div class="article-actions">
+                <button class="read-more" type="button">Read More</button>
+                <a class="cta-button" href="pages/ml-cohort.html" rel="noopener"
+                  >Full Story &rarr;</a
+                >
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="article-card" data-expandable>
+          <div class="article-top">
+            <div class="article-media">
+              <div
+                class="img-placeholder landscape-placeholder"
+                aria-label="Placeholder for a photo related to technical writing"
+              >
+                <img
+                  src="assets/GaoTek.png"
+                  alt="Vintage newspaper-style headline illustration"
+                  loading="eager"
+                />
+              </div>
+              <p class="article-caption">
+                Agreement and acceptance letter, remotely.
+              </p>
+            </div>
+            <div class="article-copy">
+              <p class="article-kicker">
+                <img
+                  class="org-favicon"
+                  src="https://www.google.com/s2/favicons?sz=64&amp;domain=gaotek.com"
+                  alt=""
+                  width="18"
+                  height="18"
+                  loading="lazy"
+                />
+                FIELD REPORTS &middot; JUL 2025 &ndash; OCT 2025
+              </p>
+              <h3 class="article-headline">Technical Writer, GAOTek Inc.</h3>
+              <p class="article-byline">Manhattan, NY (Remote)</p>
+              <p class="article-lede">
+                Wrote technical articles and product guides for a
+                test-and-measurement and IoT technology company.
+              </p>
+              <div class="story-body">
+                <ul>
+                  <li>
+                    Researched and wrote articles and product guides about
+                    test-and-measurement, IoT, and embedded systems, for a
+                    business audience.
+                  </li>
+                  <li>
+                    Worked with engineering and product teams to turn technical
+                    details into a report that's easy to understand.
+                  </li>
+                  <li>
+                    Edited and formatted documents so they stayed accurate,
+                    consistent, and on-brand.
+                  </li>
+                </ul>
+                <p class="editor-note">
+                  Editor's note: duties from the company all done remotely with
+                  consistent bi-weekly progress report.
+                </p>
+              </div>
+              <div class="article-actions">
+                <button class="read-more" type="button">Read More</button>
+                <a class="cta-button" href="pages/gaotek.html" rel="noopener"
+                  >Full Story &rarr;</a
+                >
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- ===================== PROJECTS ===================== -->
+      <section class="paper-section projects-section" id="projects">
+        <h2 class="section-masthead">The Project Desk</h2>
+        <p class="section-subhead">
+          Selected case files, pulled from the archive.
+        </p>
+        <div class="section-rule"></div>
+
+        <div class="project-carousel" id="project-carousel">
+          <button
+            class="project-nav project-nav-prev"
+            id="project-prev"
+            type="button"
+            aria-label="Previous case files"
+          >
+            <span aria-hidden="true">&#9756;</span>
+          </button>
+
+          <div class="project-viewport" id="project-viewport">
+            <div class="project-track" id="project-track">
+              <article class="project-card">
+                <p class="project-tag">Data Science Capstone</p>
+                <div
+                  class="img-placeholder landscape-placeholder project-photo"
+                  aria-label="Placeholder for a flood risk dashboard or map screenshot"
+                >
+                  <img
+                    src="assets/Floodguard.jpeg"
+                    class="headline-photo"
+                    alt="Vintage newspaper-style headline illustration"
+                    loading="eager"
+                  />
+                </div>
+                <h3 class="project-headline">
+                  Flood Risk Prediction (Bandung Floodguard)
+                </h3>
+                <p class="project-teaser">
+                  A Random Forest model that reads Indonesia&rsquo;s daily
+                  meteorological data and turns it into a flood risk forecast:
+                  Aman, Siaga, or Waspada/Awas.
+                </p>
+                <button
+                  class="cta-button dossier-open-btn"
+                  type="button"
+                  data-dossier-target="flood-risk"
+                >
+                  Open Case File &rarr;
+                </button>
+
+                <div
+                  class="dossier-content"
+                  data-dossier-id="flood-risk"
+                  hidden
+                >
+                  <p class="dossier-tag">
+                    CASE NO. 01 &middot; DATA SCIENCE CAPSTONE
+                  </p>
+                  <h3 class="dossier-title">
+                    Flood Risk Prediction from BMKG Weather Data
+                  </h3>
+                  <p class="dossier-meta">
+                    Dataset, feature selection &amp; modeling led by the writer
+                  </p>
+                  <div
+                    class="img-placeholder landscape-placeholder dossier-photo"
+                    aria-label="Placeholder for a project screenshot, chart, or map"
+                  >
+                    <img
+                      src="assets/Floodguard2.png"
+                      class="headline-photo"
+                      alt="Vintage newspaper-style headline illustration"
+                      loading="eager"
+                    />
+                  </div>
+                  <div class="dossier-body">
+                    <p>
+                      FloodGuard is a machine learning project that predicts
+                      flood risk using historical BMKG weather data. The project
+                      applies data preparation, feature selection, and
+                      predictive modeling to transform meteorological patterns
+                      into an accessible flood-risk indicator through a
+                      Streamlit application.
+                    </p>
+                  </div>
+                </div>
+              </article>
+
+              <article class="project-card">
+                <p class="project-tag">Machine Learning + Big Data</p>
+                <div
+                  class="img-placeholder landscape-placeholder project-photo"
+                  aria-label="Placeholder for a chatbot interface screenshot"
+                >
+                  <img
+                    src="assets/RAG.png"
+                    class="headline-photo"
+                    alt="Vintage newspaper-style headline illustration"
+                    loading="eager"
+                  />
+                </div>
+                <h3 class="project-headline">
+                  RAG OpenSearch Hospital Chatbot
+                </h3>
+                <p class="project-teaser">
+                  A RAG-powered chatbot grounded in hospital knowledge using
+                  OpenSearch.
+                </p>
+                <button
+                  class="cta-button dossier-open-btn"
+                  type="button"
+                  data-dossier-target="chatbot-oos"
+                >
+                  Open Case File &rarr;
+                </button>
+
+                <div
+                  class="dossier-content"
+                  data-dossier-id="chatbot-oos"
+                  hidden
+                >
+                  <p class="dossier-tag">
+                    CASE NO. 02 &middot; MACHINE LEARNING EXPERIMENT
+                  </p>
+                  <h3 class="dossier-title">RAG OpenSearch Hospital Chatbot</h3>
+                  <p class="dossier-meta">
+                    Presented in Bahasa Indonesia for an executive audience
+                  </p>
+                  <div
+                    class="img-placeholder landscape-placeholder dossier-photo"
+                    aria-label="Placeholder for a project screenshot or presentation slide"
+                  >
+                    <img
+                      src="assets/RAG2.png"
+                      class="headline-photo"
+                      alt="Vintage newspaper-style headline illustration"
+                      loading="eager"
+                    />
+                  </div>
+                  <div class="dossier-body">
+                    <p>
+                      A Retrieval-Augmented Generation (RAG) chatbot that uses
+                      OpenSearch for semantic document retrieval and an LLM to
+                      provide accurate, context-grounded responses to
+                      hospital-related queries. The system combines vector
+                      embeddings, KNN search, and document retrieval.
+                    </p>
+                  </div>
+                </div>
+              </article>
+
+              <article class="project-card">
+                <p class="project-tag">Frontend + ERP Development</p>
+                <div
+                  class="img-placeholder landscape-placeholder project-photo"
+                  aria-label="Placeholder for a project photo or screenshot"
+                >
+                  <img
+                    src="assets/HIJAUWeb.png"
+                    class="headline-photo"
+                    alt="Vintage newspaper-style headline illustration"
+                    loading="eager"
+                  />
+                </div>
+                <h3 class="project-headline">
+                  HIJAU.co.id website & ERP System
+                </h3>
+                <p class="project-teaser">
+                  Developed web and ERP solutions for HIJAU, a sustainable
+                  technology company, using Odoo to connect its public-facing
+                  website with internal business processes and data.
+                </p>
+                <button
+                  class="cta-button dossier-open-btn"
+                  type="button"
+                  data-dossier-target="project-three"
+                >
+                  Open Case File &rarr;
+                </button>
+
+                <div
+                  class="dossier-content"
+                  data-dossier-id="project-three"
+                  hidden
+                >
+                  <p class="dossier-tag">
+                    CASE NO. 03 &middot; WEB + ERP DEVELOPMENT
+                  </p>
+
+                  <h3 class="dossier-title">
+                    HIJAU.co.id Website & ERP System
+                  </h3>
+
+                  <p class="dossier-meta">
+                    Software Engineer, Ferbos Kreasi Digital &middot; Oct 2025 –
+                    Jan 2026
+                  </p>
+                  <div
+                    class="img-placeholder landscape-placeholder dossier-photo"
+                    aria-label="Placeholder for a project screenshot or photo"
+                  >
+                    <img
+                      src="assets/HIJAU2.jpeg"
+                      class="headline-photo"
+                      alt="Vintage newspaper-style headline illustration"
+                      loading="eager"
+                    />
+                  </div>
+                  <div class="dossier-body">
+                    <p>
+                      A web and ERP platform built with Odoo as its core for
+                      HIJAU.co.id, a sustainable technology company providing
+                      Solar as a Service and Cooling as a Service. The project
+                      connects the company's public-facing website with its
+                      internal business operations within a unified ecosystem.
+                    </p>
+                  </div>
+                </div>
+              </article>
+
+              <article class="project-card">
+                <p class="project-tag">Frontend + Backend Development</p>
+                <div
+                  class="img-placeholder landscape-placeholder project-photo"
+                  aria-label="Placeholder for a project photo or screenshot"
+                >
+                  <img
+                    src="assets/Wakafenergi.png"
+                    class="headline-photo"
+                    alt="Vintage newspaper-style headline illustration"
+                    loading="eager"
+                  />
+                </div>
+                <h3 class="project-headline">
+                  Wakafenergi.id website & Backend Data Flow
+                </h3>
+                <p class="project-teaser">
+                  Redesigned Wakafenergi.id into a data-driven donation
+                  platform, connecting Odoo's product and checkout system with
+                  custom frontend logic, real-time impact calculations, and a
+                  redesigned user flow.
+                </p>
+                <button
+                  class="cta-button dossier-open-btn"
+                  type="button"
+                  data-dossier-target="project-four"
+                >
+                  Open Case File &rarr;
+                </button>
+
+                <div
+                  class="dossier-content"
+                  data-dossier-id="project-four"
+                  hidden
+                >
+                  <p class="dossier-tag">
+                    CASE NO. 04 &middot; FULL-STACK + ERP DEVELOPMENT
+                  </p>
+                  <h3 class="dossier-title">
+                    Wakafenergi.id Website & Backend Data Flow
+                  </h3>
+                  <p class="dossier-meta">
+                    Software Engineer, Ferbos Kreasi Digital &middot; Aug 2025 –
+                    Mar 2026
+                  </p>
+                  <div
+                    class="img-placeholder landscape-placeholder dossier-photo"
+                    aria-label="Placeholder for a project screenshot or photo"
+                  >
+                    <img
+                      src="assets/Wakaf2.jpeg"
+                      class="headline-photo"
+                      alt="Vintage newspaper-style headline illustration"
+                      loading="eager"
+                    />
+                  </div>
+                  <div class="dossier-body">
+                    <p>
+                      A digital platform for managing and supporting
+                      energy-based waqf programs, built on Odoo's architecture.
+                      The project connects a redesigned web experience with
+                      product, donation, and checkout systems while using
+                      real-time data to visualize energy impact and its
+                      benefits.
+                    </p>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <button
+            class="project-nav project-nav-next"
+            id="project-next"
+            type="button"
+            aria-label="Next case files"
+          >
+            <span aria-hidden="true">&#9758;</span>
+          </button>
+        </div>
+
+        <div
+          class="project-dots"
+          id="project-dots"
+          role="tablist"
+          aria-label="Case file pages"
+        ></div>
+      </section>
+
+      <!-- ===================== ORGANIZATION EXPERIENCE ===================== -->
+      <section class="paper-section" id="organization">
+        <h2 class="section-masthead">Society Page</h2>
+        <p class="section-subhead">
+          Overheard around campus committees and organization
+        </p>
+        <div class="section-rule"></div>
+
+        <ul class="gossip-column">
+          <li class="gossip-entry">
+            <div
+              class="img-placeholder square-placeholder gossip-photo"
+              aria-label="Placeholder for a photo from the Student Association"
+            >
+              <img
+                src="assets/himads.png"
+                alt="Vintage newspaper-style headline illustration"
+                loading="eager"
+              />
+            </div>
+            <span class="gossip-mark">
+              <img
+                class="org-favicon inline-favicon"
+                src="https://www.google.com/s2/favicons?sz=64&amp;domain=telkomuniversity.ac.id"
+                alt=""
+                width="14"
+                height="14"
+                loading="lazy"
+              />
+              DEC 2023 &ndash; MAR 2025 &middot; BANDUNG
+            </span>
+            Spotted for almost 2 years running errands at the
+            <strong>Student Association of Data Science</strong> as Student
+            Representative Body and Programming Mentor. He supervised ongoing
+            projects, mentored new members on the basics of programming, and
+            helped written down the association's official rules.
+            <p class="detail-link-wrap">
+              <a
+                class="cta-button"
+                href="pages/student-association.html"
+                rel="noopener"
+                >Full Story &rarr;</a
+              >
+            </p>
+          </li>
+          <li class="gossip-entry">
+            <div
+              class="img-placeholder square-placeholder gossip-photo"
+              aria-label="Placeholder for a photo from AIESEC"
+            >
+              <img
+                src="assets/AIESECinBandung.jpeg"
+                alt="Vintage newspaper-style headline illustration"
+                loading="eager"
+              />
+            </div>
+            <span class="gossip-mark">
+              <img
+                class="org-favicon inline-favicon"
+                src="https://www.google.com/s2/favicons?sz=64&amp;domain=aiesec.org"
+                alt=""
+                width="14"
+                height="14"
+                loading="lazy"
+              />
+              OCT 2023 &ndash; JAN 2024 &middot; BANDUNG
+            </span>
+            Also seen that season as an
+            <strong>AIESEC in Bandung</strong> Future Leader, taking part in
+            leadership workshops and finishing a team project on a real-world
+            issue.
+            <p class="detail-link-wrap">
+              <a
+                class="cta-button"
+                href="pages/aiesec-future-leader.html"
+                rel="noopener"
+                >Full Story &rarr;</a
+              >
+            </p>
+          </li>
+          <li class="gossip-entry">
+            <div
+              class="img-placeholder square-placeholder gossip-photo"
+              aria-label="Placeholder for a photo of design work"
+            >
+              <img
+                src="assets/CCI.jpeg"
+                alt="Vintage newspaper-style headline illustration"
+                loading="eager"
+              />
+            </div>
+            <span class="gossip-mark"
+              >FEB 2023 &ndash; DEC 2023 &middot; BANDUNG</span
+            >
+            Before all that: a year at
+            <strong>Central Computer Improvement</strong> focusing on Data
+            Research and UI/UX Design, testing designs with real users and
+            building wireframes and prototypes in Figma.
+            <p class="detail-link-wrap">
+              <a
+                class="cta-button"
+                href="pages/uiux-designer.html"
+                rel="noopener"
+                >Full Story &rarr;</a
+              >
+            </p>
+          </li>
+          <li class="gossip-entry">
+            <div
+              class="img-placeholder square-placeholder gossip-photo"
+              aria-label="Placeholder for a photo from Nihon no Matsuri"
+            >
+              <img
+                src="assets/NNM.jpeg"
+                alt="Vintage newspaper-style headline illustration"
+                loading="eager"
+              />
+            </div>
+            <span class="gossip-mark"
+              >OCT 2023 &ndash; JUN 2024 &middot; BANDUNG</span
+            >
+            Also spent nine months as Event Organizer for
+            <strong>Nihon no Matsuri</strong>, one of the largest cultural
+            festivals in Bandung. He played a role in the fundraising division
+            that helped secure the event's budget, coordinated with vendors, and
+            ran the cafe at the main event.
+            <p class="detail-link-wrap">
+              <a
+                class="cta-button"
+                href="pages/nihon-no-matsuri.html"
+                rel="noopener"
+                >Full Story &rarr;</a
+              >
+            </p>
+          </li>
+          <li class="gossip-entry">
+            <div
+              class="img-placeholder square-placeholder gossip-photo"
+              aria-label="Placeholder for a photo from Student English Society"
+            >
+              <img
+                src="assets/SES.jpeg"
+                alt="Vintage newspaper-style headline illustration"
+                loading="eager"
+              />
+            </div>
+            <span class="gossip-mark"
+              >JAN 2023 &ndash; MAY 2024 &middot; BANDUNG</span
+            >
+            Around the same time, a member of
+            <strong>Student English Society</strong> at Telkom University,
+            sharpening his public speaking and storytelling through regular
+            sessions, workshops, and practice with peers.
+            <p class="detail-link-wrap">
+              <a
+                class="cta-button"
+                href="pages/student-english-society.html"
+                rel="noopener"
+                >Full Story &rarr;</a
+              >
+            </p>
+          </li>
+          <li class="gossip-entry">
+            <div
+              class="img-placeholder square-placeholder gossip-photo"
+              aria-label="Placeholder for a photo from Navy Tel-U"
+            >
+              <img
+                src="assets/NAVY.png"
+                alt="Vintage newspaper-style headline illustration"
+                loading="eager"
+              />
+            </div>
+            <span class="gossip-mark"
+              >NOV 2022 &ndash; FEB 2023 &middot; BANDUNG</span
+            >
+            And right at the start: <strong>Navy Tel-U</strong>, under
+            PERMISI.TEL-U, part of the committee that welcomed and oriented
+            incoming Telkom University students during his first months on
+            campus.
+            <p class="detail-link-wrap">
+              <a class="cta-button" href="pages/navy-telu.html" rel="noopener"
+                >Full Story &rarr;</a
+              >
+            </p>
+          </li>
+        </ul>
+      </section>
+
+      <!-- ===================== VOLUNTEER EXPERIENCE ===================== -->
+      <section class="paper-section" id="volunteer">
+        <h2 class="section-masthead">Volunteer Dispatches</h2>
+        <p class="section-subhead">A postcard, sent home from Thailand</p>
+        <div class="section-rule"></div>
+
+        <div class="postcard">
+          <div>
+            <div
+              class="img-placeholder landscape-placeholder postcard-photo"
+              aria-label="Placeholder for a photo from Thailand"
+            >
+              <img
+                src="assets/AIESEC GV.jpg"
+                class="headline-photo"
+                alt="Vintage newspaper-style headline illustration"
+                loading="eager"
+              />
+            </div>
+            <p class="postcard-message">
+              Dear reader, spent this summer (as of summer of 2024) teaching
+              English at three schools, from elementary to high school, in
+              Bangkok and Sisaket. Built lessons and workshops to help students
+              speak up and think critically that engages english exercises,
+              worked with local teachers on community events for the 4th SDG
+              (Quality Education) as well as highly anticipated 'English Day',
+              and even joined an international conference in Bangkok. Wish you
+              were here. Or at least have a taste of Sisaket's local Pad Thai.
+            </p>
+            <p class="postcard-sign">
+              <img
+                class="org-favicon inline-favicon"
+                src="https://www.google.com/s2/favicons?sz=64&amp;domain=aiesec.org"
+                alt=""
+                width="16"
+                height="16"
+                loading="lazy"
+              />
+              Nikki, Outgoing Global Volunteer, AIESEC, Jul&ndash;Sep 2024
+            </p>
+            <p class="detail-link-wrap">
+              <a class="cta-button" href="pages/volunteer.html" rel="noopener"
+                >Full Story &rarr;</a
+              >
+            </p>
+          </div>
+          <div class="postcard-side">
+            <div class="postcard-stamp" aria-hidden="true">&#9992;</div>
+            <div class="postmark" aria-hidden="true">
+              BANGKOK &amp;<br />SISAKET<br />2024
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== AWARDS ===================== -->
+      <section class="paper-section" id="awards">
+        <h2 class="section-masthead">The Honor Roll</h2>
+        <p class="section-subhead">
+          Prizes, finals, and other notable mentions
+        </p>
+        <div class="section-rule"></div>
+
+        <div class="honor-grid">
+          <article class="honor-card">
+            <p class="honor-rank">First Prize</p>
+            <h3 class="honor-title">Best Impact Business Plan</h3>
+            <p class="honor-meta">
+              ADIKARA Business Case Competition 2025, Telkom University &middot;
+            </p>
+            <p class="honor-body">
+              Built a business model, projection plan, PESTLE and SWOT based
+              proposal for a computer vision app venture named EduMotion.
+            </p>
+          </article>
+          <article class="honor-card">
+            <p class="honor-rank">Finalist</p>
+            <h3 class="honor-title">Satria Data</h3>
+            <p class="honor-meta">
+              Satria Data Kaggle Competition 2025, Telkom University
+            </p>
+            <p class="honor-body">
+              Reached the finals of Telkom University's flagship data
+              competition, held on Kaggle.
+            </p>
+          </article>
+          <article class="honor-card">
+            <p class="honor-rank">Finalist</p>
+            <h3 class="honor-title">BDC Data Mining Competition</h3>
+            <p class="honor-meta">Telkom University</p>
+            <p class="honor-body">
+              Reached the finals of the BDC Data Mining Competition.
+            </p>
+          </article>
+          <article class="honor-card">
+            <p class="honor-rank">Finalist</p>
+            <h3 class="honor-title">EDU-Impact</h3>
+            <p class="honor-meta">
+              Technical Capstone Poster Competition 2026, Telkom University
+            </p>
+            <p class="honor-body">
+              Advanced to the finals with a technical capstone poster submission
+              for the Bandung Floodguard Project.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- ===================== CLASSIFIEDS (skills & certifications) ===================== -->
+      <section class="paper-section classifieds-section" id="classifieds">
+        <h2 class="section-masthead">Classifieds</h2>
+        <p class="section-subhead">
+          Skills, tools, and certifications. Browse or search below
+        </p>
+        <div class="section-rule"></div>
+
+        <div class="classifieds-search">
+          <label for="classified-search">Search the classifieds:</label>
+          <input
+            type="text"
+            id="classified-search"
+            placeholder='Try "Python", "SQL", "design" &hellip;'
+          />
+        </div>
+
+        <div class="classifieds-grid" id="classifieds-grid">
+          <div class="classified-ad" data-cat="technical">
+            <p class="classified-heading">SKILLS OFFERED: TECHNICAL</p>
+            <p class="classified-body">
+              Python, SQL, Machine Learning, API, Business Analysis, Natural
+              Language Processing, Exploratory Data Analysis, Data
+              Visualization, Web Scraping, Java, C++, Golang, Web Development,
+              Database Management, ERP Development, Design.
+            </p>
+          </div>
+
+          <div class="classified-ad" data-cat="business">
+            <p class="classified-heading">SKILLS OFFERED: TOOLS</p>
+            <p class="classified-body">
+              IDE, GitHub, Docker Containers, AI, Google Workspace, Figma,
+              Colaboratory Notebook, Virtual Machine, PowerBI, Tableau,
+              Streamlit, Excel, Word, PowerPoint, Canva, ProjectLibre, Odoo,
+              Android Studio, Ubuntu.
+            </p>
+          </div>
+
+          <div class="classified-ad" data-cat="business">
+            <p class="classified-heading">SKILLS OFFERED: SOFTSKILL</p>
+            <p class="classified-body">
+              Teamwork, Adaptability, Flexibility, Learning Agility, Work Ethic,
+              Communication, Integrity, Discipline, Motivation, Delegation,
+              Project Management, Critical Thinking, Analytical Thinking,
+              Data-Driven Decision Making.
+            </p>
+          </div>
+
+          <div class="classified-ad" data-cat="languages">
+            <p class="classified-heading">LANGUAGES SPOKEN</p>
+            <p class="classified-body">
+              Indonesian (Native). English (Professional Working Proficiency).
+              Mandarin (Beginner)
+            </p>
+          </div>
+
+          <div class="classified-ad" data-cat="oracle certification">
+            <p class="classified-heading">CERTIFICATE ON FILE</p>
+            <p class="classified-body">
+              Generative AI Professional Oracle Cloud Infrastructure.
+            </p>
+          </div>
+
+          <div class="classified-ad" data-cat="sql certification">
+            <p class="classified-heading">CERTIFICATE ON FILE</p>
+            <p class="classified-body">SQL for Data Analysis.</p>
+          </div>
+
+          <div class="classified-ad" data-cat="data science certification">
+            <p class="classified-heading">CERTIFICATE ON FILE</p>
+            <p class="classified-body">Data Science Fundamentals.</p>
+          </div>
+
+          <div class="classified-ad" data-cat="python certification">
+            <p class="classified-heading">CERTIFICATE ON FILE</p>
+            <p class="classified-body">Python Fundamentals.</p>
+          </div>
+
+          <div class="classified-ad" data-cat="ai certification">
+            <p class="classified-heading">CERTIFICATE ON FILE</p>
+            <p class="classified-body">Artificial Intelligence Essentials.</p>
+          </div>
+
+          <div
+            class="classified-ad"
+            data-cat="myskill certification data analysis"
+          >
+            <p class="classified-heading">CERTIFICATE ON FILE</p>
+            <p class="classified-body">
+              Data Science and Data Analysis Path: MySkill.
+            </p>
+          </div>
+
+          <div
+            class="classified-ad"
+            data-cat="dicoding certification machine learning"
+          >
+            <p class="classified-heading">CERTIFICATE ON FILE</p>
+            <p class="classified-body">
+              Data Analytics and Machine Learning: Dicoding Bangun Negeri.
+            </p>
+          </div>
+        </div>
+        <p class="classifieds-empty" id="classifieds-empty" hidden>
+          No listings match your search. Try a shorter word.
+        </p>
+      </section>
+
+      <!-- ===================== CONTACT ===================== -->
+      <section class="paper-section letters-section" id="contact">
+        <h2 class="section-masthead">Letters to the Editor</h2>
+        <p class="section-subhead">
+          Reader is welcomed and permitted to send their regards.
+        </p>
+        <div class="section-rule"></div>
+
+        <div class="letters-grid">
+          <div class="letter-box">
+            <p class="letter-line">
+              <span class="letter-label">Post:</span> Bandung, West Java,
+              Indonesia
+            </p>
+            <p class="letter-line">
+              <span class="letter-label">Telephone:</span> +62 811-8103-804
+            </p>
+            <p class="letter-line">
+              <span class="letter-label">Telegraph (email):</span>
+              <a href="mailto:jibrilnikki.g@gmail.com"
+                >jibrilnikki.g@gmail.com</a
+              >
+            </p>
+            <p class="letter-line">
+              <span class="letter-label">Also Found At:</span>
+              <a
+                href="https://www.linkedin.com/in/jibrilnikkighiffari"
+                target="_blank"
+                rel="noopener"
+                >linkedin.com/in/jibrilnikkighiffari</a
+              >
+            </p>
+          </div>
+          <div class="stamp-box">
+            <div class="wax-stamp" aria-hidden="true">JNG</div>
+            <p class="stamp-caption">
+              Correspondence sealed and delivered with care.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="masthead-footer">
+      <div class="masthead-rule-thick"></div>
+      <p class="footer-line">
+        THE NIKKI WIKI &middot; Published irregularly since 2022. Modern 2026
+        Version. &middot;
+      </p>
+      <p class="footer-line footer-small">
+        &copy; <span id="year"></span> Jibril Nikki Ghiffari. No datasets were
+        harmed in the making of this website.
+      </p>
+      <button class="back-to-top" id="back-to-top" type="button">
+        Back to the Front Page &uarr;
+      </button>
+    </footer>
+
+    <!-- ===================== BACKGROUND MUSIC ===================== -->
+    <audio id="bg-music" preload="auto" loop>
+      <source src="Final_Press_Run.mp3" type="audio/mpeg" />
+    </audio>
+    <div class="radio-switch">
+      <span class="radio-switch-caption">Radio</span>
+      <span
+        class="radio-switch-state radio-switch-state-off"
+        id="radio-state-off"
+        >OFF</span
+      >
+      <button
+        class="radio-toggle"
+        id="gramophone-btn"
+        type="button"
+        role="switch"
+        aria-checked="false"
+        aria-label="Turn on the radio"
+      >
+        <span class="radio-toggle-pulse-ring" aria-hidden="true"></span>
+        <span
+          class="radio-toggle-pulse-ring radio-toggle-pulse-ring-delay"
+          aria-hidden="true"
+        ></span>
+        <img
+          id="radio-image"
+          class="radio-toggle-image"
+          src="assets/RadioOFF.png"
+          alt="Radio off"
+          aria-hidden="true"
+        />
+      </button>
+      <span class="radio-switch-state radio-switch-state-on" id="radio-state-on"
+        >ON</span
+      >
+    </div>
+
+    <!-- ===================== PROJECT DOSSIER (case-file note overlay) ===================== -->
+    <div class="dossier-overlay" id="dossier-overlay" hidden>
+      <div class="dossier-backdrop" id="dossier-backdrop"></div>
+      <div class="dossier-note" role="dialog" aria-modal="true">
+        <p class="dossier-stamp" aria-hidden="true">CASE&nbsp;FILE</p>
+        <button
+          class="dossier-close"
+          id="dossier-close"
+          type="button"
+          aria-label="Close case file"
+        >
+          &times;
+        </button>
+        <div class="dossier-note-content" id="dossier-note-content"></div>
+      </div>
+    </div>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>
