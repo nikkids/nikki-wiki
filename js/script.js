@@ -300,12 +300,100 @@
   }
 
   var bgMusic = document.getElementById('bg-music');
+
   var gramophoneBtn = document.getElementById('gramophone-btn');
+
   var radioImage = document.getElementById('radio-image');
+
   var radioStateOff = document.getElementById('radio-state-off');
+
   var radioStateOn = document.getElementById('radio-state-on');
+
   var storedRadioState = readRadioState();
-  var musicEnabled = false;
+
+  var musicEnabled = storedRadioState ? storedRadioState.enabled : false;
+
+  if (radioImage) {
+    radioImage.addEventListener(
+      'error',
+      function () {
+        var fallback = document.createElement('span');
+
+        fallback.id = 'radio-image';
+
+        fallback.className = 'radio-toggle-image radio-image-fallback';
+
+        fallback.setAttribute('aria-hidden', 'true');
+
+        fallback.textContent = '📻';
+
+        radioImage.replaceWith(fallback);
+
+        radioImage = fallback;
+      },
+      { once: true }
+    );
+  }
+
+  if (bgMusic) {
+    bgMusic.loop = true;
+
+    bgMusic.preload = 'auto';
+
+    bgMusic.volume = 0.4;
+
+    bgMusic.addEventListener('playing', function () {
+      if (gramophoneBtn) {
+        gramophoneBtn.classList.add('audio-active');
+      }
+    });
+
+    ['pause', 'ended', 'stalled', 'emptied', 'error'].forEach(function (evt) {
+      bgMusic.addEventListener(evt, function () {
+        if (gramophoneBtn) {
+          gramophoneBtn.classList.remove('audio-active');
+        }
+      });
+    });
+
+    window.setInterval(function () {
+      if (!bgMusic.paused) {
+        writeRadioState(true, bgMusic.currentTime);
+      }
+    }, 2000);
+
+    var resumeFromSavedState = function () {
+      if (!storedRadioState || !storedRadioState.enabled) {
+        return;
+      }
+
+      var resumeTime = storedRadioState.time || 0;
+
+      if (bgMusic.duration && isFinite(bgMusic.duration)) {
+        var elapsed = (Date.now() - storedRadioState.savedAt) / 1000;
+
+        if (elapsed > 0 && elapsed < 30) {
+          resumeTime += elapsed;
+        }
+
+        resumeTime = resumeTime % bgMusic.duration;
+      }
+
+      try {
+        bgMusic.currentTime = resumeTime;
+      } catch (e) {}
+
+      startMusic();
+    };
+
+    if (bgMusic.readyState >= 1) {
+      resumeFromSavedState();
+    } else {
+      bgMusic.addEventListener('loadedmetadata', resumeFromSavedState, {
+        once: true,
+      });
+    }
+  }
 
   function updateMusicUI() {
     if (radioStateOff) {
@@ -337,79 +425,17 @@
   }
 
   function startMusic() {
-    if (!bgMusic) return;
+    if (!bgMusic || !musicEnabled) {
+      return;
+    }
 
     bgMusic.volume = 0.4;
-
-    try {
-      bgMusic.load();
-    } catch (e) {}
 
     var promise = bgMusic.play();
 
     if (promise && typeof promise.catch === 'function') {
-      promise.catch(function (error) {
-        musicEnabled = false;
-        updateMusicUI();
-        writeRadioState(false, bgMusic.currentTime);
-        console.error('Radio playback failed:', error);
-      });
+      promise.catch(function () {});
     }
-  }
-
-  if (radioImage) {
-    radioImage.addEventListener(
-      'error',
-      function () {
-        var fallback = document.createElement('span');
-
-        fallback.id = 'radio-image';
-        fallback.className = 'radio-toggle-image radio-image-fallback';
-        fallback.setAttribute('aria-hidden', 'true');
-        fallback.textContent = '📻';
-
-        radioImage.replaceWith(fallback);
-
-        radioImage = fallback;
-      },
-      { once: true }
-    );
-  }
-
-  if (bgMusic) {
-    bgMusic.loop = true;
-    bgMusic.preload = 'auto';
-    bgMusic.volume = 0.4;
-
-    bgMusic.addEventListener('playing', function () {
-      musicEnabled = true;
-
-      updateMusicUI();
-
-      writeRadioState(true, bgMusic.currentTime);
-
-      if (gramophoneBtn) {
-        gramophoneBtn.classList.add('audio-active');
-      }
-    });
-
-    ['pause', 'ended', 'stalled', 'emptied', 'error'].forEach(function (evt) {
-      bgMusic.addEventListener(evt, function () {
-        if (gramophoneBtn) {
-          gramophoneBtn.classList.remove('audio-active');
-        }
-
-        if (evt === 'ended') {
-          bgMusic.currentTime = 0;
-        }
-      });
-    });
-
-    window.setInterval(function () {
-      if (!bgMusic.paused && musicEnabled) {
-        writeRadioState(true, bgMusic.currentTime);
-      }
-    }, 2000);
   }
 
   updateMusicUI();
@@ -417,8 +443,6 @@
   if (gramophoneBtn) {
     gramophoneBtn.addEventListener('click', function (event) {
       event.stopPropagation();
-
-      AudioEngine.unlock();
 
       if (!bgMusic) {
         console.error('#bg-music was not found.');
@@ -435,24 +459,22 @@
         bgMusic.pause();
 
         writeRadioState(false, bgMusic.currentTime);
+      } else {
+        musicEnabled = true;
 
-        updateMusicUI();
+        startMusic();
 
-        return;
+        writeRadioState(true, bgMusic.currentTime);
       }
 
-      musicEnabled = true;
-
       updateMusicUI();
-
-      startMusic();
     });
   }
 
   ['pagehide', 'beforeunload'].forEach(function (evt) {
     window.addEventListener(evt, function () {
       if (bgMusic) {
-        writeRadioState(musicEnabled && !bgMusic.paused, bgMusic.currentTime);
+        writeRadioState(musicEnabled, bgMusic.currentTime);
       }
     });
   });
@@ -784,19 +806,42 @@
     });
 
   var projectCarousel = document.getElementById('project-carousel');
+
   var projectViewport = document.getElementById('project-viewport');
+
   var projectTrack = document.getElementById('project-track');
+
   var projectPrevBtn = document.getElementById('project-prev');
+
   var projectNextBtn = document.getElementById('project-next');
+
   var projectDotsWrap = document.getElementById('project-dots');
 
   if (projectViewport && projectTrack && projectTrack.children.length) {
     var projectCards = Array.prototype.slice.call(projectTrack.children);
+
+    function getVisiblePerPage() {
+      var available = projectViewport.clientWidth;
+      var minComfortableCardWidth = 300;
+      var estimatedGap = 26;
+      return available < minComfortableCardWidth * 2 + estimatedGap ? 1 : 2;
+    }
+
+    var visiblePerPage = getVisiblePerPage();
+
+    var totalPages = Math.max(
+      1,
+      Math.ceil(projectCards.length / visiblePerPage)
+    );
+
     var currentPage = 0;
-    var totalPages = projectCards.length;
+
     var trackGap = 0;
+
     var maxShift = 0;
+
     var projectWasDragged = false;
+
     var projectDots = [];
 
     function buildProjectDots() {
@@ -807,6 +852,11 @@
 
       projectDotsWrap.innerHTML = '';
 
+      if (totalPages <= 1) {
+        projectDots = [];
+        return;
+      }
+
       for (var p = 0; p < totalPages; p++) {
         var dot = document.createElement('button');
 
@@ -816,7 +866,7 @@
 
         dot.setAttribute(
           'aria-label',
-          'Show case file ' + (p + 1) + ' of ' + totalPages
+          'Show case files, page ' + (p + 1) + ' of ' + totalPages
         );
 
         dot.setAttribute('data-page', String(p));
@@ -830,47 +880,36 @@
     }
 
     function measureProjectCarousel() {
+      visiblePerPage = getVisiblePerPage();
+
+      totalPages = Math.max(1, Math.ceil(projectCards.length / visiblePerPage));
+
       var viewportWidth = projectViewport.clientWidth;
 
       trackGap = parseFloat(getComputedStyle(projectTrack).columnGap) || 0;
 
-      var cardWidth = Math.min(Math.max(viewportWidth * 0.72, 280), 680);
-
-      if (viewportWidth <= 700) {
-        cardWidth = Math.min(Math.max(viewportWidth * 0.86, 260), 520);
-      }
-
-      var sideInset = Math.max(0, (viewportWidth - cardWidth) / 2);
+      var cardWidth =
+        (viewportWidth - trackGap * (visiblePerPage - 1)) / visiblePerPage;
 
       projectCards.forEach(function (card) {
         card.style.width = cardWidth + 'px';
         card.style.flex = '0 0 ' + cardWidth + 'px';
       });
 
-      projectTrack.style.width =
-        sideInset * 2 +
-        cardWidth * projectCards.length +
-        trackGap * (projectCards.length - 1) +
-        'px';
+      var trackWidth =
+        cardWidth * projectCards.length + trackGap * (projectCards.length - 1);
 
-      projectTrack.style.paddingLeft = sideInset + 'px';
-      projectTrack.style.paddingRight = sideInset + 'px';
+      projectTrack.style.width = trackWidth + 'px';
 
-      maxShift = Math.max(
-        0,
-        cardWidth * projectCards.length +
-          trackGap * (projectCards.length - 1) -
-          viewportWidth +
-          sideInset * 2
-      );
-
-      projectTrack.dataset.cardWidth = String(cardWidth);
+      maxShift = Math.max(0, trackWidth - viewportWidth);
     }
 
     function updateProjectNav() {
-      projectDots.forEach(function (dot, i) {
-        dot.classList.toggle('active', i === currentPage);
-      });
+      if (projectDots.length) {
+        projectDots.forEach(function (dot, i) {
+          dot.classList.toggle('active', i === currentPage);
+        });
+      }
 
       if (projectPrevBtn) {
         projectPrevBtn.disabled = totalPages <= 1;
@@ -882,13 +921,17 @@
     }
 
     function shiftForPage(page) {
-      var cardWidth = parseFloat(projectTrack.dataset.cardWidth) || 0;
+      var raw = totalPages > 1 ? (page / (totalPages - 1)) * maxShift : 0;
 
-      return Math.min(maxShift, Math.max(0, page * (cardWidth + trackGap)));
+      return Math.min(maxShift, Math.max(0, raw));
     }
 
     function goToPage(page, skipAnimation) {
-      currentPage = ((page % totalPages) + totalPages) % totalPages;
+      if (totalPages <= 1) {
+        currentPage = 0;
+      } else {
+        currentPage = ((page % totalPages) + totalPages) % totalPages;
+      }
 
       var shift = shiftForPage(currentPage);
 
@@ -908,7 +951,18 @@
     }
 
     function layoutProjectCarousel() {
-      totalPages = projectCards.length;
+      visiblePerPage = getVisiblePerPage();
+
+      totalPages = Math.max(1, Math.ceil(projectCards.length / visiblePerPage));
+
+      var projectsSection = document.getElementById('projects');
+
+      if (projectsSection) {
+        projectsSection.classList.toggle(
+          'project-desk-single',
+          visiblePerPage === 1
+        );
+      }
 
       if (currentPage >= totalPages) {
         currentPage = totalPages - 1;
@@ -955,12 +1009,8 @@
     if (projectCarousel) {
       projectCarousel.addEventListener('keydown', function (event) {
         if (event.key === 'ArrowLeft') {
-          event.preventDefault();
-
           goToPage(currentPage - 1);
         } else if (event.key === 'ArrowRight') {
-          event.preventDefault();
-
           goToPage(currentPage + 1);
         }
       });
@@ -986,8 +1036,11 @@
 
       dragState = {
         pointerId: event.pointerId,
+
         startX: event.clientX,
+
         startShift: -shiftForPage(currentPage),
+
         moved: 0,
       };
 
