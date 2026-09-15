@@ -1,11 +1,11 @@
 /* ==========================================================================
-   THE GHIFFARI GAZETTE â€” vintage broadsheet stylesheet
+   THE GHIFFARI GAZETTE — vintage broadsheet stylesheet
    ========================================================================== */
 
 :root {
-  --paper: #ece3cd;
-  --paper-shadow: #ddd0ab;
-  --paper-dark: #e2d5b3;
+  --paper: #f6f0e1;
+  --paper-shadow: #e8dcc2;
+  --paper-dark: #eee1c3;
   --ink: #262019;
   --ink-soft: #4a4030;
   --ink-faint: #6b6045;
@@ -79,16 +79,17 @@ body::after {
   z-index: 999;
 
   /* Deep vignette shadows + multi-layered textured border outline */
-  box-shadow: inset 0 0 5vw rgba(30, 25, 20, 0.5),
-    /* Soft ambient vignette */ inset 0 0 12vw rgba(30, 25, 20, 0.35),
-    /* Wide spread vignette */ inset 0 0 0 8px rgba(58, 47, 32, 0.12),
-    /* Inner soft outline band */ inset 0 0 0 2px rgba(40, 30, 20, 0.5); /* Outer sharp outline frame */
+  box-shadow: inset 0 0 5vw rgba(30, 25, 20, 0.26),
+    /* Soft ambient vignette — lightened for a brighter, more optimistic feel */
+      inset 0 0 12vw rgba(30, 25, 20, 0.16),
+    /* Wide spread vignette */ inset 0 0 0 8px rgba(58, 47, 32, 0.07),
+    /* Inner soft outline band */ inset 0 0 0 2px rgba(40, 30, 20, 0.28); /* Outer sharp outline frame */
 
   /* Subtle radial gradient adding texture specifically at the margins */
   background: radial-gradient(
     circle,
     transparent 65%,
-    rgba(30, 20, 10, 0.04) 100%
+    rgba(30, 20, 10, 0.02) 100%
   );
 }
 
@@ -264,6 +265,8 @@ aside.sidebar .mini-me-frame img {
 .masthead-meta-center {
   flex: 1;
   text-align: center;
+  font-size: 0.88rem;
+  font-weight: 700;
 }
 
 /* --------------------------------- nav ------------------------------------ */
@@ -283,6 +286,7 @@ aside.sidebar .mini-me-frame img {
 
 .nav-tab {
   font-family: var(--font-type);
+  font-weight: 700;
   font-size: 0.72rem;
   letter-spacing: 0.03em;
   background: none;
@@ -1265,7 +1269,7 @@ main {
 
 .ticker-track {
   display: inline-flex;
-  animation: ticker-scroll 38s linear infinite;
+  animation: ticker-scroll 41s linear infinite;
   will-change: transform;
 }
 .ticker-tape:hover .ticker-track,
@@ -1284,6 +1288,7 @@ main {
 
 .ticker-item {
   font-family: var(--font-type);
+  font-weight: 700;
   font-size: 0.72rem;
   letter-spacing: 0.04em;
   color: var(--paper);
@@ -1555,7 +1560,7 @@ main {
 }
 
 /* ------------------------------------ detail pages --------------------------------- */
-/* Standalone pages under /pages/ â€” the "read more, in full" destination for each entry. */
+/* Standalone pages under /pages/ — the "read more, in full" destination for each entry. */
 
 .detail-header {
   max-width: 720px;
@@ -1655,7 +1660,11 @@ main {
   }
 }
 
-/* ==========================================================================\n   NIKKI TICKER â€” subtle data-paper polish\n   These overrides preserve the original broadsheet layout while tightening\n   the front-page proportions and adding restrained data-themed ornament.\n   ========================================================================== */
+/* ==========================================================================
+   NIKKI TICKER — subtle data-paper polish
+   These overrides preserve the original broadsheet layout while tightening
+   the front-page proportions and adding restrained data-themed ornament.
+   ========================================================================== */
 
 /* A quiet background engraving: grid + data points, intentionally faint. */
 body::before {
@@ -1968,13 +1977,13 @@ main,
   line-height: 1.45;
 }
 
-/* Occasional tiny data marks in the paper margins â€” deliberately subtle. */
+/* Occasional tiny data marks in the paper margins — deliberately subtle. */
 .paper-section:nth-of-type(3n) {
   position: relative;
 }
 
 .paper-section:nth-of-type(3n)::after {
-  content: '01 Â· 10 Â· 11  /  DATA NOTE';
+  content: '01 · 10 · 11  /  DATA NOTE';
   position: absolute;
   right: 0;
   top: 1.5rem;
@@ -2005,7 +2014,7 @@ main,
                  full write-up in a focused note, inspired by the document/journal screens
                  in games like Resident Evil — the page stays visible behind a dimmed,
                  blurred backdrop while the note itself takes full attention.
-              
+
                  Browsing between cards is a card-catalog drawer, not a slideshow: drag or
                  swipe the row, or press the printer's-manicule stamps (☜ ☞) at either
                  side — a nod to the pointing-hand ornament old typesetters used in the
@@ -2157,62 +2166,56 @@ main,
   border-color: var(--accent);
 }
 
-@media (max-width: 640px) {
-  .project-nav {
-    width: 34px;
-    height: 34px;
-    font-size: 1.1rem;
-  }
+/*
+  NOTE: the old rule here shrank the project cards' padding, tag, headline
+  and teaser sizing behind `@media (max-width: 640px)`. That's replaced
+  below by `.project-desk-single` (a class JS applies whenever it decides
+  the carousel should show one card at a time) so the "compact card"
+  styling always matches whatever JS actually rendered — even on devices
+  that report an unusual viewport width.
+*/
+.project-desk-single .project-nav {
+  width: 34px;
+  height: 34px;
+  font-size: 1.1rem;
+}
 
-  /* Tighten the case-file cards so they don't stretch tall on narrow
-                   screens — smaller type, less breathing room between
-                   elements, and a clamped teaser so copy length can't push
-                   the card height around from card to card. */
-  .project-carousel {
-    gap: 0.4rem;
-  }
+.project-desk-single .project-carousel {
+  gap: 0.4rem;
+}
 
-  .project-track {
-    gap: 1rem;
-  }
+.project-desk-single .project-track {
+  gap: 1rem;
+}
 
-  .project-card {
-    padding: 0.85rem 0.9rem 1rem;
-  }
+.project-desk-single .project-card {
+  padding: 0.85rem 0.9rem 1rem;
+}
 
-  .project-tag {
-    font-size: 0.6rem;
-    padding: 0.16rem 0.45rem;
-    margin-bottom: 0.5rem;
-  }
+.project-desk-single .project-tag {
+  font-size: 0.6rem;
+  padding: 0.16rem 0.45rem;
+  margin-bottom: 0.5rem;
+}
 
-  .project-photo {
-    margin-bottom: 0.6rem;
-  }
+.project-desk-single .project-photo {
+  margin-bottom: 0.6rem;
+}
 
-  .project-headline {
-    font-size: 1rem;
-    line-height: 1.2;
-    margin-bottom: 0.35rem;
-  }
+.project-desk-single .project-headline {
+  font-size: 1rem;
+  line-height: 1.2;
+  margin-bottom: 0.35rem;
+}
 
-  .project-teaser {
-    font-size: 0.85rem;
-    line-height: 1.4;
-    margin-bottom: 0.75rem;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    overflow: hidden;
-  }
-
-  /* Show exactly one case file at a time on mobile — two narrow cards
-     side by side read as cramped and accidental, not intentional. Each
-     card now fills the whole carousel viewport; the manicule arrows
-     step between them one at a time. */
-  .project-card {
-    width: 100%;
-  }
+.project-desk-single .project-teaser {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
 }
 
 /* ------------------------------ case-file dossier overlay ------------------------------ */
@@ -2446,24 +2449,22 @@ body.dossier-lock {
     max-width: 100%;
     overflow: hidden;
   }
+}
 
-  /* One project card per mobile view.
-     The JS should also use visiblePerPage = 1 on mobile.
-     !important overrides the inline width written by the carousel. */
-  #projects .project-viewport {
-    width: 100%;
-    min-width: 0;
-    overflow: hidden;
-  }
 
-  #projects .project-track {
-    gap: 1rem;
-  }
+#projects.project-desk-single .project-viewport {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
 
-  #projects .project-track .project-card {
-    flex: 0 0 100% !important;
-    width: 100% !important;
-    max-width: 100%;
-    min-width: 0;
-  }
+#projects.project-desk-single .project-track {
+  gap: 1rem;
+}
+
+#projects.project-desk-single .project-track .project-card {
+  flex: 0 0 100% !important;
+  width: 100% !important;
+  max-width: 100%;
+  min-width: 0;
 }
