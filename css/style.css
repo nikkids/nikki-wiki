@@ -3,9 +3,9 @@
    ========================================================================== */
 
 :root {
-  --paper: #fbf7ee;
-  --paper-shadow: #f1e7d0;
-  --paper-dark: #f6ecd4;
+  --paper: #f6f0e1;
+  --paper-shadow: #e8dcc2;
+  --paper-dark: #eee1c3;
   --ink: #262019;
   --ink-soft: #4a4030;
   --ink-faint: #6b6045;
@@ -50,17 +50,17 @@ body {
   background-color: var(--paper);
   background-image: radial-gradient(
       circle at 20% 30%,
-      rgba(58, 47, 32, 0.03) 0,
+      rgba(58, 47, 32, 0.05) 0,
       transparent 45%
     ),
     radial-gradient(
       circle at 80% 70%,
-      rgba(58, 47, 32, 0.035) 0,
+      rgba(58, 47, 32, 0.06) 0,
       transparent 40%
     ),
     radial-gradient(
       circle at 50% 95%,
-      rgba(58, 47, 32, 0.03) 0,
+      rgba(58, 47, 32, 0.05) 0,
       transparent 50%
     ),
     url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxODAiIGhlaWdodD0iMTgwIj48ZmlsdGVyIGlkPSJuIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC44NSIgbnVtT2N0YXZlcz0iMiIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjxmZUNvbG9yTWF0cml4IHR5cGU9Im1hdHJpeCIgdmFsdWVzPSIwIDAgMCAwIDAuMTUgIDAgMCAwIDAgMC4xMiAgMCAwIDAgMCAwLjA4ICAwIDAgMCAwLjUgMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNuKSIvPjwvc3ZnPg==');
@@ -79,11 +79,11 @@ body::after {
   z-index: 999;
 
   /* Deep vignette shadows + multi-layered textured border outline */
-  box-shadow: inset 0 0 5vw rgba(30, 25, 20, 0.13),
-    /* Soft ambient vignette — lightened further for a brighter, more optimistic feel */
-      inset 0 0 12vw rgba(30, 25, 20, 0.08),
-    /* Wide spread vignette */ inset 0 0 0 8px rgba(58, 47, 32, 0.04),
-    /* Inner soft outline band */ inset 0 0 0 2px rgba(40, 30, 20, 0.16); /* Outer sharp outline frame */
+  box-shadow: inset 0 0 5vw rgba(30, 25, 20, 0.26),
+    /* Soft ambient vignette — lightened for a brighter, more optimistic feel */
+      inset 0 0 12vw rgba(30, 25, 20, 0.16),
+    /* Wide spread vignette */ inset 0 0 0 8px rgba(58, 47, 32, 0.07),
+    /* Inner soft outline band */ inset 0 0 0 2px rgba(40, 30, 20, 0.28); /* Outer sharp outline frame */
 
   /* Subtle radial gradient adding texture specifically at the margins */
   background: radial-gradient(
@@ -265,7 +265,7 @@ aside.sidebar .mini-me-frame img {
 .masthead-meta-center {
   flex: 1;
   text-align: center;
-  font-size: 1.05rem;
+  font-size: 0.88rem;
   font-weight: 700;
 }
 
@@ -289,7 +289,6 @@ aside.sidebar .mini-me-frame img {
   font-weight: 700;
   font-size: 0.72rem;
   letter-spacing: 0.03em;
-  text-shadow: 0.4px 0 0 currentColor, -0.4px 0 0 currentColor;
   background: none;
   border: none;
   border-right: 1px solid var(--paper-shadow);
@@ -965,7 +964,7 @@ main {
 
 /* ------------------------------ scroll reveal ------------------------------ */
 /* Applied via JS (script.js) to existing cards — no markup changes needed.
-         Elements start slightly lowered and faded, then settle into place. */
+           Elements start slightly lowered and faded, then settle into place. */
 
 .reveal-init {
   opacity: 0;
@@ -1150,7 +1149,7 @@ main {
 }
 
 /* one orchestrated load-in moment for the masthead: the title types itself
-         out (see script.js), with a blinking cursor while it's mid-line */
+           out (see script.js), with a blinking cursor while it's mid-line */
 .typewriter-typing::after {
   content: '';
   display: inline-block;
@@ -1215,8 +1214,8 @@ main {
   }
 
   /* The section nav becomes one horizontally-scrollable strip instead of
-           wrapping into several rows — a stack of nav rows was eating most of
-           the screen before any content appeared. Swipe sideways to see more. */
+             wrapping into several rows — a stack of nav rows was eating most of
+             the screen before any content appeared. Swipe sideways to see more. */
   .section-nav {
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -1270,7 +1269,7 @@ main {
 
 .ticker-track {
   display: inline-flex;
-  animation: ticker-scroll 44s linear infinite;
+  animation: ticker-scroll 41s linear infinite;
   will-change: transform;
 }
 .ticker-tape:hover .ticker-track,
@@ -1293,7 +1292,6 @@ main {
   font-size: 0.72rem;
   letter-spacing: 0.04em;
   color: var(--paper);
-  text-shadow: 0.4px 0 0 currentColor, -0.4px 0 0 currentColor;
   padding: 0.35rem 1.6rem;
   border-right: 1px solid rgba(236, 227, 205, 0.25);
 }
@@ -1445,9 +1443,9 @@ main {
 }
 
 /* The button itself is now a round dial framing the real radio artwork,
-       with sound-wave rings that ping outward while music is genuinely playing
-       (driven by the <audio> element's real play/pause state in script.js —
-       not just the on/off intent, so it never animates on a blocked autoplay). */
+         with sound-wave rings that ping outward while music is genuinely playing
+         (driven by the <audio> element's real play/pause state in script.js —
+         not just the on/off intent, so it never animates on a blocked autoplay). */
 .radio-toggle {
   position: relative;
   width: 44px;
@@ -1493,8 +1491,8 @@ main {
 }
 
 /* Simple emoji fallback if the artwork fails to load — never a broken icon.
-       script.js swaps the <img> for this span directly, so no advanced CSS
-       selector support is needed for the fallback to actually show. */
+         script.js swaps the <img> for this span directly, so no advanced CSS
+         selector support is needed for the fallback to actually show. */
 .radio-image-fallback {
   display: flex;
   align-items: center;
@@ -1504,7 +1502,7 @@ main {
 }
 
 /* Sound-wave rings: hidden and still by default, only ping outward while
-       .audio-active is present (i.e. audio is actually, verifiably playing). */
+         .audio-active is present (i.e. audio is actually, verifiably playing). */
 .radio-toggle-pulse-ring {
   position: absolute;
   inset: 0;
@@ -1663,10 +1661,10 @@ main {
 }
 
 /* ==========================================================================
-   NIKKI TICKER — subtle data-paper polish
-   These overrides preserve the original broadsheet layout while tightening
-   the front-page proportions and adding restrained data-themed ornament.
-   ========================================================================== */
+     NIKKI TICKER — subtle data-paper polish
+     These overrides preserve the original broadsheet layout while tightening
+     the front-page proportions and adding restrained data-themed ornament.
+     ========================================================================== */
 
 /* A quiet background engraving: grid + data points, intentionally faint. */
 body::before {
@@ -1699,7 +1697,7 @@ main,
 }
 
 /* Keep the two front-page columns proportional rather than creating a huge
-                     visual void beneath the shorter left story. */
+                       visual void beneath the shorter left story. */
 .front-grid {
   grid-template-columns: minmax(0, 1.65fr) minmax(300px, 1fr);
   gap: 1.5rem;
@@ -1719,9 +1717,9 @@ main,
 }
 
 /* ============================================================================
-                   HEADLINE NEWS — HORIZONTAL OLD TV SIGNAL BUZZ
-                   Scoped ONLY to the Headline News photograph.
-                   ============================================================================ */
+                     HEADLINE NEWS — HORIZONTAL OLD TV SIGNAL BUZZ
+                     Scoped ONLY to the Headline News photograph.
+                     ============================================================================ */
 .headline-tv-screen {
   position: relative;
   width: 100%;
@@ -1738,7 +1736,7 @@ main,
 }
 
 /* Vertical signal bars moving LEFT → RIGHT.
-                   This is intentionally horizontal, rather than a vertical scan. */
+                     This is intentionally horizontal, rather than a vertical scan. */
 .headline-tv-screen::before {
   content: '';
   position: absolute;
@@ -1877,7 +1875,7 @@ main,
 }
 
 /* Real avatar images use the same circular treatment as the original
-                     placeholder. */
+                       placeholder. */
 .mini-me-frame .mini-me-img {
   display: block;
   width: 100%;
@@ -1888,7 +1886,7 @@ main,
 }
 
 /* A newspaper-style data engraving that occupies some of the otherwise empty
-                     lower-left front-page area. */
+                       lower-left front-page area. */
 .data-engraving {
   margin-top: 1.2rem;
   border-top: 1px solid var(--paper-shadow);
@@ -1998,7 +1996,7 @@ main,
 }
 
 /* Sound-effect gain was raised (see script.js) so the paper-flip and click
-                     sounds keep presence over the music without feeling like a loud UI click. */
+                       sounds keep presence over the music without feeling like a loud UI click. */
 
 @media (max-width: 860px) {
   .front-grid {
@@ -2011,17 +2009,17 @@ main,
 }
 
 /* ==========================================================================
-                 THE PROJECT DESK — newspaper-style project cards + case-file dossier
-                 Cards show only the essentials; the "Open Case File" button reveals the
-                 full write-up in a focused note, inspired by the document/journal screens
-                 in games like Resident Evil — the page stays visible behind a dimmed,
-                 blurred backdrop while the note itself takes full attention.
-
-                 Browsing between cards is a card-catalog drawer, not a slideshow: drag or
-                 swipe the row, or press the printer's-manicule stamps (☜ ☞) at either
-                 side — a nod to the pointing-hand ornament old typesetters used in the
-                 margins to say "see here."
-                 ========================================================================== */
+                   THE PROJECT DESK — newspaper-style project cards + case-file dossier
+                   Cards show only the essentials; the "Open Case File" button reveals the
+                   full write-up in a focused note, inspired by the document/journal screens
+                   in games like Resident Evil — the page stays visible behind a dimmed,
+                   blurred backdrop while the note itself takes full attention.
+  
+                   Browsing between cards is a card-catalog drawer, not a slideshow: drag or
+                   swipe the row, or press the printer's-manicule stamps (☜ ☞) at either
+                   side — a nod to the pointing-hand ornament old typesetters used in the
+                   margins to say "see here."
+                   ========================================================================== */
 
 .project-carousel {
   display: flex;
@@ -2100,7 +2098,7 @@ main,
 }
 
 /* The full write-up lives here in the markup (so it's easy to author) but
-                   stays out of the flow until cloned into the dossier note by script.js. */
+                     stays out of the flow until cloned into the dossier note by script.js. */
 .dossier-content[hidden] {
   display: none;
 }
@@ -2169,13 +2167,13 @@ main,
 }
 
 /*
-  NOTE: the old rule here shrank the project cards' padding, tag, headline
-  and teaser sizing behind `@media (max-width: 640px)`. That's replaced
-  below by `.project-desk-single` (a class JS applies whenever it decides
-  the carousel should show one card at a time) so the "compact card"
-  styling always matches whatever JS actually rendered — even on devices
-  that report an unusual viewport width.
-*/
+    NOTE: the old rule here shrank the project cards' padding, tag, headline
+    and teaser sizing behind `@media (max-width: 640px)`. That's replaced
+    below by `.project-desk-single` (a class JS applies whenever it decides
+    the carousel should show one card at a time) so the "compact card"
+    styling always matches whatever JS actually rendered — even on devices
+    that report an unusual viewport width.
+  */
 .project-desk-single .project-nav {
   width: 34px;
   height: 34px;
@@ -2384,8 +2382,8 @@ body.dossier-lock {
 }
 
 /* ============================================================
-           SOCIETY PAGE — clearer organization names + readable body
-           ============================================================ */
+             SOCIETY PAGE — clearer organization names + readable body
+             ============================================================ */
 
 .gossip-entry {
   font-family: var(--font-body);
@@ -2431,14 +2429,13 @@ body.dossier-lock {
   color: var(--ink);
 }
 
-
 /* ============================================================
-   FINAL MOBILE FIXES
-   Keep desktop styling unchanged.
-   ============================================================ */
+     FINAL MOBILE FIXES
+     Keep desktop styling unchanged.
+     ============================================================ */
 @media screen and (max-width: 640px) {
   /* Completely disable the viewport/body vignette on mobile.
-     !important is intentional so this remains the final authority. */
+       !important is intentional so this remains the final authority. */
   body::after {
     content: none !important;
     display: none !important;
@@ -2453,7 +2450,16 @@ body.dossier-lock {
   }
 }
 
-
+/*
+    Project Desk single-card layout — driven by the `.project-desk-single`
+    class that JS toggles on #projects (see script.js). This is intentionally
+    NOT inside a `max-width` media query: relying on a guessed screen-width
+    breakpoint here is exactly what caused two narrow, stretched cards to
+    show on some phones whose browser reports a wider-than-expected CSS
+    viewport. JS measures the carousel's real available width and applies
+    this class only when there truly isn't room for two comfortable cards,
+    so this rule and the JS decision can never disagree.
+  */
 #projects.project-desk-single .project-viewport {
   width: 100%;
   min-width: 0;
