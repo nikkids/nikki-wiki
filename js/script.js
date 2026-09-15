@@ -959,10 +959,10 @@
 
       /*
           Calculate exact card width.
-
+  
           1 card on mobile:
             viewportWidth
-
+  
           2 cards on desktop:
             (viewportWidth - gap) / 2
         */
@@ -1035,7 +1035,7 @@
     function layoutProjectCarousel() {
       /*
           Important order:
-
+  
           1. Recalculate mobile/desktop mode
           2. Recalculate card width
           3. Rebuild dots
@@ -1137,14 +1137,14 @@
 
       /*
             VERY IMPORTANT:
-
+  
             Do not capture pointerdown from:
             - buttons
             - links
             - inputs
             - selects
             - labels
-
+  
             This prevents Open Case File from
             fighting with the drag mechanic.
           */
