@@ -1,15 +1,9 @@
-/* ==========================================================================
-   THE GHIFFARI GAZETTE — interactivity & synthesized audio
-   ========================================================================== */
-
 (function () {
   'use strict';
 
   var prefersReducedMotion = window.matchMedia(
     '(prefers-reduced-motion: reduce)'
   ).matches;
-
-  /* ------------------------------- dates -------------------------------- */
 
   var dateEl = document.getElementById('today-date');
 
@@ -31,8 +25,6 @@
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
   }
-
-  /* --------------------------- mini-me waving avatar --------------------------- */
 
   var miniMeFrames = [
     {
@@ -65,14 +57,14 @@
     }, 3000);
   }
 
-  /* ============================== AUDIO ENGINE =============================== */
-
   var AudioEngine = (function () {
     var ctx = null;
     var masterGain = null;
 
-    function ensureContext() {
+    function ensureContext(userGesture) {
       if (!ctx) {
+        if (!userGesture) return null;
+
         var AC = window.AudioContext || window.webkitAudioContext;
 
         if (!AC) return null;
@@ -85,7 +77,7 @@
         masterGain.connect(ctx.destination);
       }
 
-      if (ctx.state === 'suspended') {
+      if (ctx.state === 'suspended' && userGesture) {
         ctx.resume();
       }
 
@@ -107,7 +99,7 @@
     }
 
     function playClick() {
-      var c = ensureContext();
+      var c = ensureContext(true);
 
       if (!c) return;
 
@@ -136,7 +128,7 @@
     }
 
     function playFlip() {
-      var c = ensureContext();
+      var c = ensureContext(true);
 
       if (!c) return;
 
@@ -171,7 +163,7 @@
     }
 
     function playTypeKey() {
-      var c = ensureContext();
+      var c = ensureContext(false);
 
       if (!c) return;
 
@@ -202,7 +194,7 @@
     }
 
     function playBell() {
-      var c = ensureContext();
+      var c = ensureContext(false);
 
       if (!c) return;
 
@@ -235,8 +227,6 @@
       unlock: ensureContext,
     };
   })();
-
-  /* ------------------------------ masthead typewriter ------------------------------ */
 
   var mastheadTitle = document.querySelector('.masthead-title');
 
@@ -282,8 +272,6 @@
     }
   }
 
-  /* ------------------------------ background music ------------------------------ */
-
   var RADIO_STORAGE_KEY = 'nikkiWikiRadioState';
 
   function readRadioState() {
@@ -310,9 +298,7 @@
           savedAt: Date.now(),
         })
       );
-    } catch (e) {
-      /* Storage may be disabled. */
-    }
+    } catch (e) {}
   }
 
   var bgMusic = document.getElementById('bg-music');
@@ -327,7 +313,8 @@
 
   var storedRadioState = readRadioState();
 
-  var musicEnabled = storedRadioState ? storedRadioState.enabled : false;
+  var musicEnabled = false;
+  var radioPlayRequest = 0;
 
   if (radioImage) {
     radioImage.addEventListener(
@@ -353,12 +340,13 @@
 
   if (bgMusic) {
     bgMusic.loop = true;
-
     bgMusic.preload = 'auto';
-
     bgMusic.volume = 0.4;
 
     bgMusic.addEventListener('playing', function () {
+      musicEnabled = true;
+      updateMusicUI();
+      writeRadioState(true, bgMusic.currentTime);
       if (gramophoneBtn) {
         gramophoneBtn.classList.add('audio-active');
       }
@@ -377,40 +365,7 @@
         writeRadioState(true, bgMusic.currentTime);
       }
     }, 2000);
-
-    var resumeFromSavedState = function () {
-      if (!storedRadioState || !storedRadioState.enabled) {
-        return;
-      }
-
-      var resumeTime = storedRadioState.time || 0;
-
-      if (bgMusic.duration && isFinite(bgMusic.duration)) {
-        var elapsed = (Date.now() - storedRadioState.savedAt) / 1000;
-
-        if (elapsed > 0 && elapsed < 30) {
-          resumeTime += elapsed;
-        }
-
-        resumeTime = resumeTime % bgMusic.duration;
-      }
-
-      try {
-        bgMusic.currentTime = resumeTime;
-      } catch (e) {}
-
-      startMusic();
-    };
-
-    if (bgMusic.readyState >= 1) {
-      resumeFromSavedState();
-    } else {
-      bgMusic.addEventListener('loadedmetadata', resumeFromSavedState, {
-        once: true,
-      });
-    }
   }
-
   function updateMusicUI() {
     if (radioStateOff) {
       radioStateOff.classList.toggle('active', !musicEnabled);
@@ -442,21 +397,44 @@
 
   function startMusic() {
     if (!bgMusic || !musicEnabled) {
-      return;
+      return Promise.resolve(false);
+    }
+
+    if (!bgMusic.paused) {
+      return Promise.resolve(true);
     }
 
     bgMusic.volume = 0.4;
+    var requestId = ++radioPlayRequest;
+    var promise;
 
-    var promise = bgMusic.play();
-
-    if (promise && typeof promise.catch === 'function') {
-      promise.catch(function () {
-        /*
-              Browser autoplay policy may block
-              playback until the user interacts.
-            */
-      });
+    try {
+      promise = bgMusic.play();
+    } catch (error) {
+      if (requestId === radioPlayRequest) {
+        musicEnabled = false;
+        updateMusicUI();
+      }
+      return Promise.resolve(false);
     }
+
+    return Promise.resolve(promise)
+      .then(function () {
+        return true;
+      })
+      .catch(function (error) {
+        if (
+          requestId === radioPlayRequest &&
+          error &&
+          error.name !== 'AbortError'
+        ) {
+          musicEnabled = false;
+          updateMusicUI();
+          writeRadioState(false, bgMusic.currentTime);
+          console.error('Radio playback failed:', error);
+        }
+        return false;
+      });
   }
 
   updateMusicUI();
@@ -475,32 +453,33 @@
       }
 
       if (!bgMusic.paused) {
+        radioPlayRequest++;
         musicEnabled = false;
-
         bgMusic.pause();
-
         writeRadioState(false, bgMusic.currentTime);
-      } else {
-        musicEnabled = true;
-
-        startMusic();
-
-        writeRadioState(true, bgMusic.currentTime);
+        updateMusicUI();
+        return;
       }
 
+      musicEnabled = true;
       updateMusicUI();
+      startMusic().then(function (started) {
+        if (!started && bgMusic.paused) {
+          musicEnabled = false;
+          updateMusicUI();
+          writeRadioState(false, bgMusic.currentTime);
+        }
+      });
     });
   }
 
   ['pagehide', 'beforeunload'].forEach(function (evt) {
     window.addEventListener(evt, function () {
       if (bgMusic) {
-        writeRadioState(musicEnabled, bgMusic.currentTime);
+        writeRadioState(!bgMusic.paused && musicEnabled, bgMusic.currentTime);
       }
     });
   });
-
-  /* -------------------------- headline TV signal buzz -------------------------- */
 
   var headlineTvScreen = document.querySelector('.headline-tv-screen');
 
@@ -525,8 +504,6 @@
     window.setInterval(triggerHeadlineBuzz, 4200);
   }
 
-  /* ------------------------------ button sounds ------------------------------ */
-
   document.querySelectorAll('button').forEach(function (button) {
     if (button === gramophoneBtn) return;
 
@@ -550,8 +527,6 @@
       AudioEngine.playClick();
     });
   });
-
-  /* ------------------------------ logo fallback ------------------------------ */
 
   document.querySelectorAll('.org-favicon').forEach(function (img) {
     img.addEventListener(
@@ -614,8 +589,6 @@
       { once: true }
     );
   });
-
-  /* --------------------------------- section nav -------------------------------- */
 
   var navTabs = Array.prototype.slice.call(
     document.querySelectorAll('.nav-tab')
@@ -693,8 +666,6 @@
     });
   }
 
-  /* ------------------------------- story accordions ------------------------------ */
-
   var storyCards = Array.prototype.slice.call(
     document.querySelectorAll('[data-expandable]')
   );
@@ -716,8 +687,6 @@
       AudioEngine.playClick();
     });
   });
-
-  /* ------------------------------- unfold everything ------------------------------ */
 
   var unfoldBtn = document.getElementById('unfold-btn');
 
@@ -751,8 +720,6 @@
         : 'Unfold Full Edition &#9662;';
     });
   }
-
-  /* --------------------------------- classifieds search --------------------------- */
 
   var searchInput = document.getElementById('classified-search');
 
@@ -790,8 +757,6 @@
     });
   }
 
-  /* ------------------------------------ back to top -------------------------------- */
-
   var backToTop = document.getElementById('back-to-top');
 
   if (backToTop) {
@@ -805,8 +770,6 @@
     });
   }
 
-  /* -------------------------- generic click sound on cards/links ------------------- */
-
   document
     .querySelectorAll('.honor-card, .letter-line a')
     .forEach(function (el) {
@@ -814,8 +777,6 @@
         AudioEngine.playClick();
       });
     });
-
-  /* ------------------------- paper sound on "Full Story" links ------------------------- */
 
   document
     .querySelectorAll('.cta-button:not(.dossier-open-btn)')
@@ -846,10 +807,6 @@
       });
     });
 
-  /* ========================================================================
-         PROJECT CAROUSEL
-         ======================================================================== */
-
   var projectCarousel = document.getElementById('project-carousel');
 
   var projectViewport = document.getElementById('project-viewport');
@@ -865,26 +822,8 @@
   if (projectViewport && projectTrack && projectTrack.children.length) {
     var projectCards = Array.prototype.slice.call(projectTrack.children);
 
-    /*
-          IMPORTANT FIX:
-  
-          Decide 1-vs-2 cards from the carousel's own available width
-          rather than window.innerWidth. Some devices (display-scaling
-          settings, unusual DPI configurations, etc.) report a much wider
-          CSS viewport than their physical screen suggests, which made a
-          fixed window-width breakpoint unreliable — the carousel would
-          pick "desktop" (2 cards) on phones that clearly needed 1.
-  
-          Measuring the viewport's own clientWidth and comparing it
-          against a minimum comfortable card width sidesteps that
-          entirely: whatever number a device reports, two cards only
-          ever show if there's genuinely room for two.
-        */
     function getVisiblePerPage() {
-      var available = projectViewport.clientWidth;
-      var minComfortableCardWidth = 300; // don't let a card get narrower than this
-      var estimatedGap = 26; // approx track gap in px
-      return available < minComfortableCardWidth * 2 + estimatedGap ? 1 : 2;
+      return 1;
     }
 
     var visiblePerPage = getVisiblePerPage();
@@ -903,8 +842,6 @@
     var projectWasDragged = false;
 
     var projectDots = [];
-
-    /* --------------------------- dots --------------------------- */
 
     function buildProjectDots() {
       if (!projectDotsWrap) {
@@ -941,33 +878,19 @@
       );
     }
 
-    /* --------------------------- measurements --------------------------- */
-
     function measureProjectCarousel() {
-      /*
-            Recalculate this every time the viewport
-            changes. This is the important part that
-            fixes mobile.
-          */
-      visiblePerPage = getVisiblePerPage();
-
-      totalPages = Math.max(1, Math.ceil(projectCards.length / visiblePerPage));
+      visiblePerPage = 1;
+      totalPages = Math.max(1, projectCards.length);
 
       var viewportWidth = projectViewport.clientWidth;
-
       trackGap = parseFloat(getComputedStyle(projectTrack).columnGap) || 0;
 
-      /*
-            Calculate exact card width.
-  
-            1 card on mobile:
-              viewportWidth
-  
-            2 cards on desktop:
-              (viewportWidth - gap) / 2
-          */
-      var cardWidth =
-        (viewportWidth - trackGap * (visiblePerPage - 1)) / visiblePerPage;
+      var cardWidth = Math.min(Math.max(viewportWidth * 0.84, 280), 760);
+      if (cardWidth > viewportWidth) {
+        cardWidth = viewportWidth;
+      }
+
+      var sideInset = Math.max(0, (viewportWidth - cardWidth) / 2);
 
       projectCards.forEach(function (card) {
         card.style.width = cardWidth + 'px';
@@ -975,14 +898,19 @@
       });
 
       var trackWidth =
-        cardWidth * projectCards.length + trackGap * (projectCards.length - 1);
+        sideInset * 2 +
+        cardWidth * projectCards.length +
+        trackGap * (projectCards.length - 1);
 
       projectTrack.style.width = trackWidth + 'px';
-
-      maxShift = Math.max(0, trackWidth - viewportWidth);
+      projectTrack.style.paddingLeft = sideInset + 'px';
+      projectTrack.style.paddingRight = sideInset + 'px';
+      maxShift = Math.max(
+        0,
+        (projectCards.length - 1) * (cardWidth + trackGap)
+      );
+      projectTrack.dataset.cardWidth = String(cardWidth);
     }
-
-    /* --------------------------- navigation UI --------------------------- */
 
     function updateProjectNav() {
       if (projectDots.length) {
@@ -1001,9 +929,9 @@
     }
 
     function shiftForPage(page) {
-      var raw = totalPages > 1 ? (page / (totalPages - 1)) * maxShift : 0;
-
-      return Math.min(maxShift, Math.max(0, raw));
+      var cardWidth = parseFloat(projectTrack.dataset.cardWidth) || 0;
+      var shift = page * (cardWidth + trackGap);
+      return Math.min(maxShift, Math.max(0, shift));
     }
 
     function goToPage(page, skipAnimation) {
@@ -1030,29 +958,11 @@
       updateProjectNav();
     }
 
-    /* --------------------------- layout --------------------------- */
-
     function layoutProjectCarousel() {
-      /*
-            Important order:
-  
-            1. Recalculate mobile/desktop mode
-            2. Recalculate card width
-            3. Rebuild dots
-            4. Recalculate current page
-            5. Reposition track
-          */
-
       visiblePerPage = getVisiblePerPage();
 
       totalPages = Math.max(1, Math.ceil(projectCards.length / visiblePerPage));
 
-      /*
-            NEW: stamp the decision onto the section as a class, so CSS
-            can key off the exact same source of truth JS just used —
-            rather than re-guessing a window-width breakpoint of its own
-            that could disagree with what JS decided.
-          */
       var projectsSection = document.getElementById('projects');
 
       if (projectsSection) {
@@ -1073,8 +983,6 @@
       goToPage(currentPage, true);
     }
 
-    /* --------------------------- previous --------------------------- */
-
     if (projectPrevBtn) {
       projectPrevBtn.addEventListener('click', function () {
         AudioEngine.playClick();
@@ -1083,8 +991,6 @@
       });
     }
 
-    /* --------------------------- next --------------------------- */
-
     if (projectNextBtn) {
       projectNextBtn.addEventListener('click', function () {
         AudioEngine.playClick();
@@ -1092,8 +998,6 @@
         goToPage(currentPage + 1);
       });
     }
-
-    /* --------------------------- dots --------------------------- */
 
     if (projectDotsWrap) {
       projectDotsWrap.addEventListener('click', function (event) {
@@ -1110,8 +1014,6 @@
       });
     }
 
-    /* --------------------------- keyboard --------------------------- */
-
     if (projectCarousel) {
       projectCarousel.addEventListener('keydown', function (event) {
         if (event.key === 'ArrowLeft') {
@@ -1122,10 +1024,6 @@
       });
     }
 
-    /* ====================================================================
-           DRAG / SWIPE
-           ==================================================================== */
-
     var dragState = null;
 
     projectTrack.addEventListener('pointerdown', function (event) {
@@ -1135,19 +1033,6 @@
         return;
       }
 
-      /*
-              VERY IMPORTANT:
-  
-              Do not capture pointerdown from:
-              - buttons
-              - links
-              - inputs
-              - selects
-              - labels
-  
-              This prevents Open Case File from
-              fighting with the drag mechanic.
-            */
       var interactiveTarget =
         event.target && event.target.closest
           ? event.target.closest('button, a, input, textarea, select, label')
@@ -1222,10 +1107,6 @@
 
     projectTrack.addEventListener('pointercancel', endProjectDrag);
 
-    /*
-          Prevent a drag release from accidentally
-          triggering a click.
-        */
     projectTrack.addEventListener(
       'click',
       function (event) {
@@ -1240,8 +1121,6 @@
       true
     );
 
-    /* --------------------------- responsive resize --------------------------- */
-
     var resizeTimer = null;
 
     window.addEventListener('resize', function () {
@@ -1252,11 +1131,8 @@
       }, 80);
     });
 
-    /* Initial layout */
     layoutProjectCarousel();
   }
-
-  /* ------------------------- project case-file dossier ------------------------- */
 
   var dossierOverlay = document.getElementById('dossier-overlay');
 
@@ -1353,8 +1229,6 @@
     }
   });
 
-  /* ------------------------------ scroll reveal ------------------------------ */
-
   if (!prefersReducedMotion && 'IntersectionObserver' in window) {
     var revealEls = Array.prototype.slice.call(
       document.querySelectorAll(
@@ -1406,8 +1280,6 @@
       });
     }
   }
-
-  /* ------------------------------ stat counter-up ------------------------------ */
 
   var statNums = Array.prototype.slice.call(
     document.querySelectorAll('.stat-num')
