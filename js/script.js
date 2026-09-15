@@ -1,15 +1,9 @@
-/* ==========================================================================
-   THE GHIFFARI GAZETTE — interactivity & synthesized audio
-   ========================================================================== */
-
 (function () {
   'use strict';
 
   var prefersReducedMotion = window.matchMedia(
     '(prefers-reduced-motion: reduce)'
   ).matches;
-
-  /* ------------------------------- dates -------------------------------- */
 
   var dateEl = document.getElementById('today-date');
 
@@ -31,8 +25,6 @@
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
   }
-
-  /* --------------------------- mini-me waving avatar --------------------------- */
 
   var miniMeFrames = [
     {
@@ -64,8 +56,6 @@
       miniMeCaption.textContent = frame.caption;
     }, 3000);
   }
-
-  /* ============================== AUDIO ENGINE =============================== */
 
   var AudioEngine = (function () {
     var ctx = null;
@@ -236,8 +226,6 @@
     };
   })();
 
-  /* ------------------------------ masthead typewriter ------------------------------ */
-
   var mastheadTitle = document.querySelector('.masthead-title');
 
   if (mastheadTitle) {
@@ -282,8 +270,6 @@
     }
   }
 
-  /* ------------------------------ background music ------------------------------ */
-
   var RADIO_STORAGE_KEY = 'nikkiWikiRadioState';
 
   function readRadioState() {
@@ -310,106 +296,16 @@
           savedAt: Date.now(),
         })
       );
-    } catch (e) {
-      /* Storage may be disabled. */
-    }
+    } catch (e) {}
   }
 
   var bgMusic = document.getElementById('bg-music');
-
   var gramophoneBtn = document.getElementById('gramophone-btn');
-
   var radioImage = document.getElementById('radio-image');
-
   var radioStateOff = document.getElementById('radio-state-off');
-
   var radioStateOn = document.getElementById('radio-state-on');
-
   var storedRadioState = readRadioState();
-
-  var musicEnabled = storedRadioState ? storedRadioState.enabled : false;
-
-  if (radioImage) {
-    radioImage.addEventListener(
-      'error',
-      function () {
-        var fallback = document.createElement('span');
-
-        fallback.id = 'radio-image';
-
-        fallback.className = 'radio-toggle-image radio-image-fallback';
-
-        fallback.setAttribute('aria-hidden', 'true');
-
-        fallback.textContent = '📻';
-
-        radioImage.replaceWith(fallback);
-
-        radioImage = fallback;
-      },
-      { once: true }
-    );
-  }
-
-  if (bgMusic) {
-    bgMusic.loop = true;
-
-    bgMusic.preload = 'auto';
-
-    bgMusic.volume = 0.4;
-
-    bgMusic.addEventListener('playing', function () {
-      if (gramophoneBtn) {
-        gramophoneBtn.classList.add('audio-active');
-      }
-    });
-
-    ['pause', 'ended', 'stalled', 'emptied', 'error'].forEach(function (evt) {
-      bgMusic.addEventListener(evt, function () {
-        if (gramophoneBtn) {
-          gramophoneBtn.classList.remove('audio-active');
-        }
-      });
-    });
-
-    window.setInterval(function () {
-      if (!bgMusic.paused) {
-        writeRadioState(true, bgMusic.currentTime);
-      }
-    }, 2000);
-
-    var resumeFromSavedState = function () {
-      if (!storedRadioState || !storedRadioState.enabled) {
-        return;
-      }
-
-      var resumeTime = storedRadioState.time || 0;
-
-      if (bgMusic.duration && isFinite(bgMusic.duration)) {
-        var elapsed = (Date.now() - storedRadioState.savedAt) / 1000;
-
-        if (elapsed > 0 && elapsed < 30) {
-          resumeTime += elapsed;
-        }
-
-        resumeTime = resumeTime % bgMusic.duration;
-      }
-
-      try {
-        bgMusic.currentTime = resumeTime;
-      } catch (e) {}
-
-      startMusic();
-    };
-
-    if (bgMusic.readyState >= 1) {
-      resumeFromSavedState();
-    } else {
-      bgMusic.addEventListener('loadedmetadata', resumeFromSavedState, {
-        once: true,
-      });
-    }
-  }
+  var musicEnabled = false;
 
   function updateMusicUI() {
     if (radioStateOff) {
@@ -441,22 +337,79 @@
   }
 
   function startMusic() {
-    if (!bgMusic || !musicEnabled) {
-      return;
-    }
+    if (!bgMusic) return;
 
     bgMusic.volume = 0.4;
+
+    try {
+      bgMusic.load();
+    } catch (e) {}
 
     var promise = bgMusic.play();
 
     if (promise && typeof promise.catch === 'function') {
-      promise.catch(function () {
-        /*
-            Browser autoplay policy may block
-            playback until the user interacts.
-          */
+      promise.catch(function (error) {
+        musicEnabled = false;
+        updateMusicUI();
+        writeRadioState(false, bgMusic.currentTime);
+        console.error('Radio playback failed:', error);
       });
     }
+  }
+
+  if (radioImage) {
+    radioImage.addEventListener(
+      'error',
+      function () {
+        var fallback = document.createElement('span');
+
+        fallback.id = 'radio-image';
+        fallback.className = 'radio-toggle-image radio-image-fallback';
+        fallback.setAttribute('aria-hidden', 'true');
+        fallback.textContent = '📻';
+
+        radioImage.replaceWith(fallback);
+
+        radioImage = fallback;
+      },
+      { once: true }
+    );
+  }
+
+  if (bgMusic) {
+    bgMusic.loop = true;
+    bgMusic.preload = 'auto';
+    bgMusic.volume = 0.4;
+
+    bgMusic.addEventListener('playing', function () {
+      musicEnabled = true;
+
+      updateMusicUI();
+
+      writeRadioState(true, bgMusic.currentTime);
+
+      if (gramophoneBtn) {
+        gramophoneBtn.classList.add('audio-active');
+      }
+    });
+
+    ['pause', 'ended', 'stalled', 'emptied', 'error'].forEach(function (evt) {
+      bgMusic.addEventListener(evt, function () {
+        if (gramophoneBtn) {
+          gramophoneBtn.classList.remove('audio-active');
+        }
+
+        if (evt === 'ended') {
+          bgMusic.currentTime = 0;
+        }
+      });
+    });
+
+    window.setInterval(function () {
+      if (!bgMusic.paused && musicEnabled) {
+        writeRadioState(true, bgMusic.currentTime);
+      }
+    }, 2000);
   }
 
   updateMusicUI();
@@ -464,6 +417,8 @@
   if (gramophoneBtn) {
     gramophoneBtn.addEventListener('click', function (event) {
       event.stopPropagation();
+
+      AudioEngine.unlock();
 
       if (!bgMusic) {
         console.error('#bg-music was not found.');
@@ -480,27 +435,27 @@
         bgMusic.pause();
 
         writeRadioState(false, bgMusic.currentTime);
-      } else {
-        musicEnabled = true;
 
-        startMusic();
+        updateMusicUI();
 
-        writeRadioState(true, bgMusic.currentTime);
+        return;
       }
 
+      musicEnabled = true;
+
       updateMusicUI();
+
+      startMusic();
     });
   }
 
   ['pagehide', 'beforeunload'].forEach(function (evt) {
     window.addEventListener(evt, function () {
       if (bgMusic) {
-        writeRadioState(musicEnabled, bgMusic.currentTime);
+        writeRadioState(musicEnabled && !bgMusic.paused, bgMusic.currentTime);
       }
     });
   });
-
-  /* -------------------------- headline TV signal buzz -------------------------- */
 
   var headlineTvScreen = document.querySelector('.headline-tv-screen');
 
@@ -525,8 +480,6 @@
     window.setInterval(triggerHeadlineBuzz, 4200);
   }
 
-  /* ------------------------------ button sounds ------------------------------ */
-
   document.querySelectorAll('button').forEach(function (button) {
     if (button === gramophoneBtn) return;
 
@@ -550,8 +503,6 @@
       AudioEngine.playClick();
     });
   });
-
-  /* ------------------------------ logo fallback ------------------------------ */
 
   document.querySelectorAll('.org-favicon').forEach(function (img) {
     img.addEventListener(
@@ -614,8 +565,6 @@
       { once: true }
     );
   });
-
-  /* --------------------------------- section nav -------------------------------- */
 
   var navTabs = Array.prototype.slice.call(
     document.querySelectorAll('.nav-tab')
@@ -693,8 +642,6 @@
     });
   }
 
-  /* ------------------------------- story accordions ------------------------------ */
-
   var storyCards = Array.prototype.slice.call(
     document.querySelectorAll('[data-expandable]')
   );
@@ -716,8 +663,6 @@
       AudioEngine.playClick();
     });
   });
-
-  /* ------------------------------- unfold everything ------------------------------ */
 
   var unfoldBtn = document.getElementById('unfold-btn');
 
@@ -751,8 +696,6 @@
         : 'Unfold Full Edition &#9662;';
     });
   }
-
-  /* --------------------------------- classifieds search --------------------------- */
 
   var searchInput = document.getElementById('classified-search');
 
@@ -790,8 +733,6 @@
     });
   }
 
-  /* ------------------------------------ back to top -------------------------------- */
-
   var backToTop = document.getElementById('back-to-top');
 
   if (backToTop) {
@@ -805,8 +746,6 @@
     });
   }
 
-  /* -------------------------- generic click sound on cards/links ------------------- */
-
   document
     .querySelectorAll('.honor-card, .letter-line a')
     .forEach(function (el) {
@@ -814,8 +753,6 @@
         AudioEngine.playClick();
       });
     });
-
-  /* ------------------------- paper sound on "Full Story" links ------------------------- */
 
   document
     .querySelectorAll('.cta-button:not(.dossier-open-btn)')
@@ -846,65 +783,21 @@
       });
     });
 
-  /* ========================================================================
-       PROJECT CAROUSEL
-       ======================================================================== */
-
   var projectCarousel = document.getElementById('project-carousel');
-
   var projectViewport = document.getElementById('project-viewport');
-
   var projectTrack = document.getElementById('project-track');
-
   var projectPrevBtn = document.getElementById('project-prev');
-
   var projectNextBtn = document.getElementById('project-next');
-
   var projectDotsWrap = document.getElementById('project-dots');
 
   if (projectViewport && projectTrack && projectTrack.children.length) {
     var projectCards = Array.prototype.slice.call(projectTrack.children);
-
-    /*
-        IMPORTANT FIX:
-
-        Decide 1-vs-2 cards from the carousel's own available width
-        rather than window.innerWidth. Some devices (display-scaling
-        settings, unusual DPI configurations, etc.) report a much wider
-        CSS viewport than their physical screen suggests, which made a
-        fixed window-width breakpoint unreliable — the carousel would
-        pick "desktop" (2 cards) on phones that clearly needed 1.
-
-        Measuring the viewport's own clientWidth and comparing it
-        against a minimum comfortable card width sidesteps that
-        entirely: whatever number a device reports, two cards only
-        ever show if there's genuinely room for two.
-      */
-    function getVisiblePerPage() {
-      var available = projectViewport.clientWidth;
-      var minComfortableCardWidth = 300; // don't let a card get narrower than this
-      var estimatedGap = 26; // approx track gap in px
-      return available < minComfortableCardWidth * 2 + estimatedGap ? 1 : 2;
-    }
-
-    var visiblePerPage = getVisiblePerPage();
-
-    var totalPages = Math.max(
-      1,
-      Math.ceil(projectCards.length / visiblePerPage)
-    );
-
     var currentPage = 0;
-
+    var totalPages = projectCards.length;
     var trackGap = 0;
-
     var maxShift = 0;
-
     var projectWasDragged = false;
-
     var projectDots = [];
-
-    /* --------------------------- dots --------------------------- */
 
     function buildProjectDots() {
       if (!projectDotsWrap) {
@@ -913,11 +806,6 @@
       }
 
       projectDotsWrap.innerHTML = '';
-
-      if (totalPages <= 1) {
-        projectDots = [];
-        return;
-      }
 
       for (var p = 0; p < totalPages; p++) {
         var dot = document.createElement('button');
@@ -928,7 +816,7 @@
 
         dot.setAttribute(
           'aria-label',
-          'Show case files, page ' + (p + 1) + ' of ' + totalPages
+          'Show case file ' + (p + 1) + ' of ' + totalPages
         );
 
         dot.setAttribute('data-page', String(p));
@@ -941,55 +829,48 @@
       );
     }
 
-    /* --------------------------- measurements --------------------------- */
-
     function measureProjectCarousel() {
-      /*
-          Recalculate this every time the viewport
-          changes. This is the important part that
-          fixes mobile.
-        */
-      visiblePerPage = getVisiblePerPage();
-
-      totalPages = Math.max(1, Math.ceil(projectCards.length / visiblePerPage));
-
       var viewportWidth = projectViewport.clientWidth;
 
       trackGap = parseFloat(getComputedStyle(projectTrack).columnGap) || 0;
 
-      /*
-          Calculate exact card width.
-  
-          1 card on mobile:
-            viewportWidth
-  
-          2 cards on desktop:
-            (viewportWidth - gap) / 2
-        */
-      var cardWidth =
-        (viewportWidth - trackGap * (visiblePerPage - 1)) / visiblePerPage;
+      var cardWidth = Math.min(Math.max(viewportWidth * 0.72, 280), 680);
+
+      if (viewportWidth <= 700) {
+        cardWidth = Math.min(Math.max(viewportWidth * 0.86, 260), 520);
+      }
+
+      var sideInset = Math.max(0, (viewportWidth - cardWidth) / 2);
 
       projectCards.forEach(function (card) {
         card.style.width = cardWidth + 'px';
         card.style.flex = '0 0 ' + cardWidth + 'px';
       });
 
-      var trackWidth =
-        cardWidth * projectCards.length + trackGap * (projectCards.length - 1);
+      projectTrack.style.width =
+        sideInset * 2 +
+        cardWidth * projectCards.length +
+        trackGap * (projectCards.length - 1) +
+        'px';
 
-      projectTrack.style.width = trackWidth + 'px';
+      projectTrack.style.paddingLeft = sideInset + 'px';
+      projectTrack.style.paddingRight = sideInset + 'px';
 
-      maxShift = Math.max(0, trackWidth - viewportWidth);
+      maxShift = Math.max(
+        0,
+        cardWidth * projectCards.length +
+          trackGap * (projectCards.length - 1) -
+          viewportWidth +
+          sideInset * 2
+      );
+
+      projectTrack.dataset.cardWidth = String(cardWidth);
     }
 
-    /* --------------------------- navigation UI --------------------------- */
-
     function updateProjectNav() {
-      if (projectDots.length) {
-        projectDots.forEach(function (dot, i) {
-          dot.classList.toggle('active', i === currentPage);
-        });
-      }
+      projectDots.forEach(function (dot, i) {
+        dot.classList.toggle('active', i === currentPage);
+      });
 
       if (projectPrevBtn) {
         projectPrevBtn.disabled = totalPages <= 1;
@@ -1001,17 +882,13 @@
     }
 
     function shiftForPage(page) {
-      var raw = totalPages > 1 ? (page / (totalPages - 1)) * maxShift : 0;
+      var cardWidth = parseFloat(projectTrack.dataset.cardWidth) || 0;
 
-      return Math.min(maxShift, Math.max(0, raw));
+      return Math.min(maxShift, Math.max(0, page * (cardWidth + trackGap)));
     }
 
     function goToPage(page, skipAnimation) {
-      if (totalPages <= 1) {
-        currentPage = 0;
-      } else {
-        currentPage = ((page % totalPages) + totalPages) % totalPages;
-      }
+      currentPage = ((page % totalPages) + totalPages) % totalPages;
 
       var shift = shiftForPage(currentPage);
 
@@ -1030,37 +907,8 @@
       updateProjectNav();
     }
 
-    /* --------------------------- layout --------------------------- */
-
     function layoutProjectCarousel() {
-      /*
-          Important order:
-  
-          1. Recalculate mobile/desktop mode
-          2. Recalculate card width
-          3. Rebuild dots
-          4. Recalculate current page
-          5. Reposition track
-        */
-
-      visiblePerPage = getVisiblePerPage();
-
-      totalPages = Math.max(1, Math.ceil(projectCards.length / visiblePerPage));
-
-      /*
-          NEW: stamp the decision onto the section as a class, so CSS
-          can key off the exact same source of truth JS just used —
-          rather than re-guessing a window-width breakpoint of its own
-          that could disagree with what JS decided.
-        */
-      var projectsSection = document.getElementById('projects');
-
-      if (projectsSection) {
-        projectsSection.classList.toggle(
-          'project-desk-single',
-          visiblePerPage === 1
-        );
-      }
+      totalPages = projectCards.length;
 
       if (currentPage >= totalPages) {
         currentPage = totalPages - 1;
@@ -1073,8 +921,6 @@
       goToPage(currentPage, true);
     }
 
-    /* --------------------------- previous --------------------------- */
-
     if (projectPrevBtn) {
       projectPrevBtn.addEventListener('click', function () {
         AudioEngine.playClick();
@@ -1083,8 +929,6 @@
       });
     }
 
-    /* --------------------------- next --------------------------- */
-
     if (projectNextBtn) {
       projectNextBtn.addEventListener('click', function () {
         AudioEngine.playClick();
@@ -1092,8 +936,6 @@
         goToPage(currentPage + 1);
       });
     }
-
-    /* --------------------------- dots --------------------------- */
 
     if (projectDotsWrap) {
       projectDotsWrap.addEventListener('click', function (event) {
@@ -1110,21 +952,19 @@
       });
     }
 
-    /* --------------------------- keyboard --------------------------- */
-
     if (projectCarousel) {
       projectCarousel.addEventListener('keydown', function (event) {
         if (event.key === 'ArrowLeft') {
+          event.preventDefault();
+
           goToPage(currentPage - 1);
         } else if (event.key === 'ArrowRight') {
+          event.preventDefault();
+
           goToPage(currentPage + 1);
         }
       });
     }
-
-    /* ====================================================================
-         DRAG / SWIPE
-         ==================================================================== */
 
     var dragState = null;
 
@@ -1135,19 +975,6 @@
         return;
       }
 
-      /*
-            VERY IMPORTANT:
-  
-            Do not capture pointerdown from:
-            - buttons
-            - links
-            - inputs
-            - selects
-            - labels
-  
-            This prevents Open Case File from
-            fighting with the drag mechanic.
-          */
       var interactiveTarget =
         event.target && event.target.closest
           ? event.target.closest('button, a, input, textarea, select, label')
@@ -1159,11 +986,8 @@
 
       dragState = {
         pointerId: event.pointerId,
-
         startX: event.clientX,
-
         startShift: -shiftForPage(currentPage),
-
         moved: 0,
       };
 
@@ -1222,10 +1046,6 @@
 
     projectTrack.addEventListener('pointercancel', endProjectDrag);
 
-    /*
-        Prevent a drag release from accidentally
-        triggering a click.
-      */
     projectTrack.addEventListener(
       'click',
       function (event) {
@@ -1240,8 +1060,6 @@
       true
     );
 
-    /* --------------------------- responsive resize --------------------------- */
-
     var resizeTimer = null;
 
     window.addEventListener('resize', function () {
@@ -1252,11 +1070,8 @@
       }, 80);
     });
 
-    /* Initial layout */
     layoutProjectCarousel();
   }
-
-  /* ------------------------- project case-file dossier ------------------------- */
 
   var dossierOverlay = document.getElementById('dossier-overlay');
 
@@ -1353,8 +1168,6 @@
     }
   });
 
-  /* ------------------------------ scroll reveal ------------------------------ */
-
   if (!prefersReducedMotion && 'IntersectionObserver' in window) {
     var revealEls = Array.prototype.slice.call(
       document.querySelectorAll(
@@ -1406,8 +1219,6 @@
       });
     }
   }
-
-  /* ------------------------------ stat counter-up ------------------------------ */
 
   var statNums = Array.prototype.slice.call(
     document.querySelectorAll('.stat-num')
